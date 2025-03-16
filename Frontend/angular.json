@@ -5,6 +5,9 @@
   "projects": {
     "Frontend": {
       "projectType": "application",
+      "i18n" : {
+        "sourceLocale": "fr-CH"
+      },
       "schematics": {
         "@schematics/angular:component": {
           "standalone": false
@@ -27,7 +30,8 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
-              "zone.js"
+              "zone.js",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
@@ -95,7 +99,8 @@
           "options": {
             "polyfills": [
               "zone.js",
-              "zone.js/testing"
+              "zone.js/testing",
+              "@angular/localize/init"
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
