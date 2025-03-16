@@ -17,6 +17,7 @@ builder.Services.AddDbContext<BateauDbContext>(
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
     {
         opt.Lockout.MaxFailedAccessAttempts = 20;
+        opt.Password.RequiredLength = 8;
         opt.User.RequireUniqueEmail = true;
     })
     .AddEntityFrameworkStores<BateauDbContext>();

@@ -1,9 +1,9 @@
-import {Component, computed, inject, Input, viewChildren} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {PasswordValidatorService} from '../../api/services/password-validator.service';
-import {validatePassword} from '../../api/fn/password-validator/validate-password';
-import {Observable} from 'rxjs';
 import {IdentityResult} from '../../api/models/identity-result';
+import {PasswordErrorCodes} from './password-error.codes';
+
 
 @Component({
   selector: 'app-identity-form',
@@ -38,4 +38,5 @@ export class IdentityFormComponent {
     alert('Thanks!');
   }
 
+  protected readonly PasswordErrorCodes = PasswordErrorCodes;
 }

@@ -27,9 +27,32 @@
             </mat-form-field>
 
             @if (passwordErrors?.succeeded == false) {
-              <mat-error *ngFor="let err of passwordErrors?.errors">
-                {{err.description}}
-              </mat-error>
+                <mat-list >
+                  <mat-error i18n>Le mot de passe nécessite : </mat-error>
+                    <ng-container *ngFor="let err of passwordErrors?.errors"  [ngSwitch]="err.code">
+                      <mat-error *ngSwitchCase="PasswordErrorCodes.PasswordRequiresDigit">
+                        Un chiffre;
+                      </mat-error>
+                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordTooShort">
+                        Au moins 8 caractères;
+                      </mat-error>
+
+                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresNonAlphanumeric">
+                        Un charactère non alphanumérique;
+                      </mat-error>
+
+                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresUpper">
+                        Une majuscule;
+                      </mat-error>
+
+                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresUniqueChars">
+                        Un charactère unique;
+                      </mat-error>
+                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresLower">
+                        Une minuscule;
+                      </mat-error>
+                    </ng-container>
+                </mat-list>
             }
           </div>
         </div>
