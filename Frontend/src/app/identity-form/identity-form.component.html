@@ -1,0 +1,34 @@
+<div class="auth-form">
+  <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+    <mat-card class="auth-card">
+      <mat-card-header >
+        <mat-card-title>
+          <ng-content select="[idf-title]" ></ng-content>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput type="email" placeholder="Email" formControlName="email" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <mat-form-field class="full-width">
+              <input matInput i18n-placeholder placeholder="Mot de passe" type="password" formControlName="password" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <ng-content select="[idf-middle]"> </ng-content>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button color="primary" type="submit">
+          <ng-content select="[idf-submit-content]"></ng-content>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>

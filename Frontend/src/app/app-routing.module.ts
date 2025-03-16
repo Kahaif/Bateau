@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {SignInComponent} from './sign-in/sign-in.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
-import {$localize} from '@angular/localize/init';
 import {ShipsGridComponent} from './ships/ships-grid/ships-grid.component';
 
 const routes: Routes = [
@@ -17,7 +16,7 @@ const routes: Routes = [
     component: SignUpComponent
   },
   {
-    title: $localize`Inscription`,
+    title: $localize`Vos bateaux`,
     path: 'ships',
     component: ShipsGridComponent
   }

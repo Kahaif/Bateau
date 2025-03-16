@@ -5,7 +5,10 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   standalone: false,
   styleUrl: './app.component.css'
-}) 
+})
 export class AppComponent {
   title = 'Frontend';
+  get loggedIn() {
+    return true;
+  }
 }

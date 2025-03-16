@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 @Component({
   selector: 'app-sign-in',
@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
+  onSubmit() {
 
+  }
 }
