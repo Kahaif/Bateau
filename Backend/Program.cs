@@ -1,11 +1,26 @@
-var builder = WebApplication.CreateBuilder(args);
+using Backend.Persistence;
+using Backend.Persistence.Models;
+using Microsoft.EntityFrameworkCore;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddDbContext<BateauDbContext>(
+    options => options.UseNpgsql("Postgres"));
+builder.Services.AddIdentityApiEndpoints<User>(opt =>
+    {
+        opt.Lockout.MaxFailedAccessAttempts = 20;
+        opt.User.RequireUniqueEmail = true;
+    })
+    .AddEntityFrameworkStores<BateauDbContext>();
+
+
+
+
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
