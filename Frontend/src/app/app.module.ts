@@ -14,12 +14,15 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import { ShipsGridComponent } from './ships/ships-grid/ships-grid.component';
 import { ShipsGridItemComponent } from './ships/ships-grid-item/ships-grid-item.component';
 import { ShipsDetailsComponent } from './ships/ships-details/ships-details.component';
-import {MatFormField} from '@angular/material/form-field';
+import {MatError, MatFormField} from '@angular/material/form-field';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
+import {environment} from '../environments/environment';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
 import {IdentityFormComponent} from './identity-form/identity-form.component';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {ApiModule} from '../api/api.module';
 
 @NgModule({
   declarations: [
@@ -48,12 +51,17 @@ import {IdentityFormComponent} from './identity-form/identity-form.component';
     MatInput,
     MatCardActions,
     MatCardTitle,
+    MatError,
+    ApiModule.forRoot({rootUrl: environment.apiUrl})
   ],
 
   providers: [
     provideAnimationsAsync(),
+    provideHttpClient(withInterceptorsFromDi())
   ],
 
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+
+}

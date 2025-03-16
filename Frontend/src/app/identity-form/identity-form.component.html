@@ -17,8 +17,20 @@
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
-              <input matInput i18n-placeholder placeholder="Mot de passe" type="password" formControlName="password" />
+              <input
+                (input)="triggerPasswordValidation()"
+                matInput
+                i18n-placeholder
+                placeholder="Mot de passe"
+                type="password"
+                formControlName="password" />
             </mat-form-field>
+
+            @if (passwordErrors?.succeeded == false) {
+              <mat-error *ngFor="let err of passwordErrors?.errors">
+                {{err.description}}
+              </mat-error>
+            }
           </div>
         </div>
 

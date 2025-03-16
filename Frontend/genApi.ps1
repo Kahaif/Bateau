@@ -1,0 +1,1 @@
+ng-openapi-gen --input http://localhost:5130/swagger/v1/swagger.json --output src/api/

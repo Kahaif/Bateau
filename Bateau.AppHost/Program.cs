@@ -14,6 +14,10 @@ var backend = builder.AddProject<Projects.Backend>("backend")
     .WithReference(db)
     .WaitFor(db);
 
+builder.AddContainer("mailSink", "haravich/fake-smtp-server")
+    .WithHttpEndpoint(1080, 1080)
+    .WithEndpoint(1025, 1025);
+
 builder.AddNpmApp("angular", "../Frontend")
     .WithReference(backend)
     .WaitFor(backend)

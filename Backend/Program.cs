@@ -1,3 +1,4 @@
+using Backend.Endpoints.Identity;
 using Backend.Persistence;
 using Backend.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
@@ -6,8 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
+// configuring the DB access to use Postgres
 builder.Services.AddDbContext<BateauDbContext>(
     options => options.UseNpgsql("Postgres"));
+
+// Identity configuration
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
     {
         opt.Lockout.MaxFailedAccessAttempts = 20;
@@ -15,28 +21,34 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
     })
     .AddEntityFrameworkStores<BateauDbContext>();
 
-
-
-
-
+// ==========================================================
 var app = builder.Build();
 
 
-// Configure the HTTP request pipeline.
+// Map identity presets endpoints
+// cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
+app.MapIdentityApi<User>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // enable CORS with all sources only in dev
+    app.UseCors(cors =>
+    {
+        cors.AllowAnyHeader()
+            .AllowAnyOrigin()
+            .AllowAnyMethod();
+    });
+
 }
 
 app.UseHttpsRedirection();
 
 
-app.MapGet("/weatherforecast", () =>
-{
-
-})
-.WithName("GetWeatherForecast")
+app.MapPost("/validatePassword", PasswordValidator.PreviewPasswordValidation)
+.WithName("Validate password")
 .WithOpenApi();
 
 app.Run();

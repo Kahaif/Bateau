@@ -2,8 +2,8 @@
   "name": "frontend",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --host=127.0.0.1 --port 4200",
+    "api-gen" : "ng-openapi-gen --input http://localhost:5130/swagger/v1/swagger.json --output src/api/",
+    "start": "npm run api-gen && ng serve --host=127.0.0.1 --port 4200",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -37,6 +37,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "ng-openapi-gen": "^0.52.0",
     "typescript": "~5.7.2"
   }
 }
