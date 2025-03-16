@@ -59,6 +59,12 @@
               "outputHashing": "all"
             },
             "development": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ],
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
@@ -78,7 +84,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
-            "port": 64966
+            "port": 30812
           }
         },
         "extract-i18n": {
@@ -110,6 +116,6 @@
     }
   },
   "cli": {
-    "analytics": "e614212e-07b1-4212-8f33-3e123305e50d"
+    "analytics": false
   }
 }

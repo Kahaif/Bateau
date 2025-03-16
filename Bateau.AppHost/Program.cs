@@ -6,10 +6,11 @@ var dbUsername = builder.AddParameter("dbUsername", "postgres");
 
 var db = builder.AddPostgres("db", dbPassword, dbUsername, 5432)
     .WithPgWeb()
-    .WithPgAdmin()
     .AddDatabase("pgdb", "bateau");
 
 var backend = builder.AddProject<Projects.Backend>("backend")
+    .WithHttpEndpoint(7042, 443)
+    .PublishAsDockerFile()
     .WithReference(db)
     .WaitFor(db);
 
