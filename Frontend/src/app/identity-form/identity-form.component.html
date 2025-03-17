@@ -1,5 +1,5 @@
-<div class="auth-form">
-  <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()">
+<div class="auth-form" >
+  <form [formGroup]="form" novalidate (ngSubmit)="onSubmit()"  >
     <mat-card class="auth-card">
       <mat-card-header >
         <mat-card-title>
@@ -9,59 +9,67 @@
       <mat-card-content>
         <div class="row">
           <div class="col">
-            <mat-form-field class="full-width">
-              <input matInput type="email" placeholder="Email" formControlName="email" />
+            <mat-form-field  class="full-width">
+              <input required  matInput type="email" placeholder="Email" formControlName="email" />
+              <mat-error *ngIf="form.controls.email.invalid" i18n>
+                Adresse invalide.
+              </mat-error>
             </mat-form-field>
+
           </div>
         </div>
         <div class="row">
           <div class="col">
             <mat-form-field class="full-width">
               <input
-                (input)="triggerPasswordValidation()"
                 matInput
                 i18n-placeholder
                 placeholder="Mot de passe"
                 type="password"
+                required
                 formControlName="password" />
+              <mat-error *ngIf="form.controls.password.hasError('required')" i18n>
+                Ce champ est nécessaire.
+              </mat-error>
+
+              @if (form.controls.password.hasError('codes')) {
+
+              }
+              <mat-error  *ngIf="form.controls.password.hasError('codes')">
+                @switch (form.controls.password.errors!['codes'][0]) {
+                  @case (PasswordErrorCodes.PasswordRequiresDigit) {
+                    Un chiffre est nécessaire.
+                  }
+                  @case (PasswordErrorCodes.PasswordTooShort) {
+                    Le mot de passe doit contenir au moins 8 caractères.
+                  }
+                  @case (PasswordErrorCodes.PasswordRequiresNonAlphanumeric) {
+                    Un caractère spécial est nécessaire.
+                  }
+                  @case (PasswordErrorCodes.PasswordRequiresUpper) {
+                    Une majuscule est nécessaire,
+                  }
+                  @case (PasswordErrorCodes.PasswordRequiresUniqueChars) {
+                    <!-- purposefully ignore that case as it's always 1 -->
+                  }
+
+                  @case (PasswordErrorCodes.PasswordRequiresLower) {
+                    Une minuscule est nécessaire.
+                  }
+                }
+              </mat-error >
             </mat-form-field>
-
-            @if (passwordErrors?.succeeded == false) {
-                <mat-list >
-                  <mat-error i18n>Le mot de passe nécessite : </mat-error>
-                    <ng-container *ngFor="let err of passwordErrors?.errors"  [ngSwitch]="err.code">
-                      <mat-error *ngSwitchCase="PasswordErrorCodes.PasswordRequiresDigit">
-                        Un chiffre;
-                      </mat-error>
-                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordTooShort">
-                        Au moins 8 caractères;
-                      </mat-error>
-
-                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresNonAlphanumeric">
-                        Un charactère non alphanumérique;
-                      </mat-error>
-
-                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresUpper">
-                        Une majuscule;
-                      </mat-error>
-
-                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresUniqueChars">
-                        Un charactère unique;
-                      </mat-error>
-                      <mat-error i18n *ngSwitchCase="PasswordErrorCodes.PasswordRequiresLower">
-                        Une minuscule;
-                      </mat-error>
-                    </ng-container>
-                </mat-list>
-            }
           </div>
         </div>
 
-        <ng-content select="[idf-middle]"> </ng-content>
       </mat-card-content>
-      <mat-card-actions align="end">
-        <button mat-flat-button color="primary" type="submit">
-          <ng-content select="[idf-submit-content]"></ng-content>
+      <mat-card-actions>
+        <ng-content select="[idf-middle]"> </ng-content>
+        <button  mat-flat-button  color="primary" type="submit" [disabled]="loading">
+          <mat-spinner  *ngIf="loading"></mat-spinner>
+          <span>
+            <ng-content select="[idf-submit-content]"></ng-content>
+          </span>
         </button>
       </mat-card-actions>
     </mat-card>

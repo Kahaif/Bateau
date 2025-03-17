@@ -23,16 +23,19 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import {IdentityFormComponent} from './identity-form/identity-form.component';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {ApiModule} from '../api/api.module';
+import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatChip, MatChipSet} from '@angular/material/chips';
 
 @NgModule({
   declarations: [
+    IdentityFormComponent,
     AppComponent,
-    SignUpComponent,
     SignInComponent,
     ShipsGridComponent,
     ShipsGridItemComponent,
     ShipsDetailsComponent,
-    IdentityFormComponent,
+    SignUpComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -52,7 +55,11 @@ import {ApiModule} from '../api/api.module';
     MatCardActions,
     MatCardTitle,
     MatError,
-    ApiModule.forRoot({rootUrl: environment.apiUrl})
+    ApiModule.forRoot({rootUrl: environment.apiUrl}),
+    MatProgressSpinner,
+    MatProgressSpinnerModule,
+    MatChipSet,
+    MatChip
   ],
 
   providers: [

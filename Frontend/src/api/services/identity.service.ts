@@ -12,31 +12,31 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { AccessTokenResponse } from '../models/access-token-response';
-import { forgotPasswordPost } from '../fn/backend/forgot-password-post';
-import { ForgotPasswordPost$Params } from '../fn/backend/forgot-password-post';
+import { forgotPasswordPost } from '../fn/identity/forgot-password-post';
+import { ForgotPasswordPost$Params } from '../fn/identity/forgot-password-post';
 import { InfoResponse } from '../models/info-response';
-import { loginPost } from '../fn/backend/login-post';
-import { LoginPost$Params } from '../fn/backend/login-post';
-import { manage2FaPost } from '../fn/backend/manage-2-fa-post';
-import { Manage2FaPost$Params } from '../fn/backend/manage-2-fa-post';
-import { manageInfoGet } from '../fn/backend/manage-info-get';
-import { ManageInfoGet$Params } from '../fn/backend/manage-info-get';
-import { manageInfoPost } from '../fn/backend/manage-info-post';
-import { ManageInfoPost$Params } from '../fn/backend/manage-info-post';
-import { mapIdentityApiConfirmEmail } from '../fn/backend/map-identity-api-confirm-email';
-import { MapIdentityApiConfirmEmail$Params } from '../fn/backend/map-identity-api-confirm-email';
-import { refreshPost } from '../fn/backend/refresh-post';
-import { RefreshPost$Params } from '../fn/backend/refresh-post';
-import { registerPost } from '../fn/backend/register-post';
-import { RegisterPost$Params } from '../fn/backend/register-post';
-import { resendConfirmationEmailPost } from '../fn/backend/resend-confirmation-email-post';
-import { ResendConfirmationEmailPost$Params } from '../fn/backend/resend-confirmation-email-post';
-import { resetPasswordPost } from '../fn/backend/reset-password-post';
-import { ResetPasswordPost$Params } from '../fn/backend/reset-password-post';
+import { loginPost } from '../fn/identity/login-post';
+import { LoginPost$Params } from '../fn/identity/login-post';
+import { manage2FaPost } from '../fn/identity/manage-2-fa-post';
+import { Manage2FaPost$Params } from '../fn/identity/manage-2-fa-post';
+import { manageInfoGet } from '../fn/identity/manage-info-get';
+import { ManageInfoGet$Params } from '../fn/identity/manage-info-get';
+import { manageInfoPost } from '../fn/identity/manage-info-post';
+import { ManageInfoPost$Params } from '../fn/identity/manage-info-post';
+import { mapIdentityApiConfirmEmail } from '../fn/identity/map-identity-api-confirm-email';
+import { MapIdentityApiConfirmEmail$Params } from '../fn/identity/map-identity-api-confirm-email';
+import { refreshPost } from '../fn/identity/refresh-post';
+import { RefreshPost$Params } from '../fn/identity/refresh-post';
+import { registerPost } from '../fn/identity/register-post';
+import { RegisterPost$Params } from '../fn/identity/register-post';
+import { resendConfirmationEmailPost } from '../fn/identity/resend-confirmation-email-post';
+import { ResendConfirmationEmailPost$Params } from '../fn/identity/resend-confirmation-email-post';
+import { resetPasswordPost } from '../fn/identity/reset-password-post';
+import { ResetPasswordPost$Params } from '../fn/identity/reset-password-post';
 import { TwoFactorResponse } from '../models/two-factor-response';
 
 @Injectable({ providedIn: 'root' })
-export class BackendService extends BaseService {
+export class IdentityService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }

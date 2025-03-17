@@ -28,7 +28,8 @@ var app = builder.Build();
 
 // Map identity presets endpoints
 // cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
-app.MapIdentityApi<User>();
+app.MapIdentityApi<User>()
+    .WithTags("Identity");
 
 if (app.Environment.IsDevelopment())
 {

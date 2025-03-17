@@ -1,9 +1,12 @@
-import {Component, inject} from '@angular/core';
-import {FormBuilder} from '@angular/forms';
-import {PasswordValidatorService} from '../../api/services/password-validator.service';
-import {IdentityResult} from '../../api/models/identity-result';
+import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
 import {PasswordErrorCodes} from './password-error.codes';
+import {CustomValidators} from '../../api/services/custom-validators';
 
+export interface IdentityForm {
+  password: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-identity-form',
@@ -13,30 +16,33 @@ import {PasswordErrorCodes} from './password-error.codes';
 })
 export class IdentityFormComponent {
 
-  constructor(private validator: PasswordValidatorService) {
-  }
+  private _validators = inject(CustomValidators)
+  private _fb = inject(FormBuilder)
 
-  private fb = inject(FormBuilder)
-  form = this.fb.group({
-    email: null,
-    password: null
+  form = this._fb.group({
+    email: [null, Validators.email],
+    // binding is needed to use 'this' in the validators
+    password: [null, Validators.required, this._validators.password.bind(this._validators)]
   });
 
-  passwordErrors: IdentityResult | undefined;
 
-  triggerPasswordValidation() {
-    const body = {
-      body: {
-        password: this.form.value.password
-      }
-    };
-    this.validator.validatePassword(body)
-      .subscribe(result => this.passwordErrors = result)
-  }
+  @Output()
+  submitted = new EventEmitter<IdentityForm>()
+  @Input()
+  loading = false
 
   onSubmit(): void {
-    alert('Thanks!');
+    if (this.form.invalid) {
+      return;
+    }
+
+    this.submitted.emit({
+      email: this.form.value.email!,
+      password: this.form.value.password!
+    })
   }
 
   protected readonly PasswordErrorCodes = PasswordErrorCodes;
 }
+
+

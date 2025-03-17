@@ -6,7 +6,7 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { BackendService } from './services/backend.service';
+import { IdentityService } from './services/identity.service';
 import { PasswordValidatorService } from './services/password-validator.service';
 
 /**
@@ -17,7 +17,7 @@ import { PasswordValidatorService } from './services/password-validator.service'
   exports: [],
   declarations: [],
   providers: [
-    BackendService,
+    IdentityService,
     PasswordValidatorService,
     ApiConfiguration
   ],

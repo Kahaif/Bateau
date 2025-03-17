@@ -17,4 +17,9 @@
   justify-content: space-around;
   align-items: center;
 
+  mat-card-actions.mat-mdc-card-actions {
+    align-items: center;
+    justify-content: space-between;
+  }
+
 }
