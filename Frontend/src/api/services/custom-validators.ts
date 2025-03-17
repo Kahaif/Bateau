@@ -3,7 +3,7 @@ import {PasswordValidatorService} from './password-validator.service';
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {map} from 'rxjs/operators';
 import {IdentityResult} from '../models/identity-result';
-import {PasswordErrorCodes} from '../../app/identity-form/password-error.codes';
+import {PasswordErrorCodes} from '../../app/sign-up/password-error.codes';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +25,24 @@ export class CustomValidators {
     return this._pwdService.validatePassword(body)
       .pipe(map(mapPwdResultToValidationErrors)) // project from backend results to ValidationResult
   }
+
+  /**
+   * Returns a validator ensuring that two controls values are the same
+   * @param targetControl target control of which the current control should have the same value as
+   */
+  sameAs(targetControl: AbstractControl) {
+    return (subjectControl:  AbstractControl) => {
+
+      if (targetControl.value === subjectControl.value) {
+        return null;
+      }
+
+      return {
+        inequal: true
+      } as ValidationErrors
+    }
+  }
+
 }
 
 export interface PasswordValidationErrors {

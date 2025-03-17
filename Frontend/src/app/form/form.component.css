@@ -1,8 +1,11 @@
-.auth-form {
+.form {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
-  mat-form-field {
-    width: 100%;
-  }
+
 
   form {
     width: 75%;
@@ -10,12 +13,6 @@
       width: 50%;
     }
   }
-
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 
   mat-card-actions.mat-mdc-card-actions {
     align-items: center;

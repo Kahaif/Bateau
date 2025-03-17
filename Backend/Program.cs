@@ -35,16 +35,24 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
 
+app.UseCors((policyBuilder) =>
+{
     // enable CORS with all sources only in dev
-    app.UseCors(cors =>
+    if (app.Environment.IsDevelopment())
     {
-        cors.AllowAnyHeader()
+        policyBuilder.AllowAnyHeader()
             .AllowAnyOrigin()
             .AllowAnyMethod();
-    });
-
-}
+    }
+    else
+    {
+        policyBuilder
+            .WithOrigins(app.Configuration.GetValue<string[]>("Origins") ??
+                         throw new Exception("Missing cors policy in settings"));
+    }
+});
 
 app.UseHttpsRedirection();
 

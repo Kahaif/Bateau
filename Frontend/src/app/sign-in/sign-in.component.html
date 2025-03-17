@@ -1,6 +1,39 @@
-<app-identity-form>
-  <span i18n idf-title>Connexion</span>
-  <span idf-submit-content i18n>Connexion</span>
-  <a idf-middle [routerLink]="['/sign-up']" i18n>S'inscrire ?</a>
-</app-identity-form>
+<app-form [onSubmit]="onSubmit.bind(this)" [form]="form" >
+  <form-title i18n>Connexion</form-title>
 
+  <form-field>
+    <mat-form-field>
+      <input required  matInput type="email" placeholder="Email" [formControl]="form.controls.email" />
+      <mat-error *ngIf="form.controls.email.invalid" i18n>
+        Adresse invalide.
+      </mat-error>
+    </mat-form-field>
+  </form-field>
+
+  <!-- password field with the complexity rendering logics -->
+  <form-field>
+    <mat-form-field>
+      <input
+        matInput
+        i18n-placeholder
+        placeholder="Mot de passe"
+        type="password"
+        [formControl]="form.controls.password"
+        required
+      />
+      <mat-error *ngIf="form.controls.password.hasError('required')" i18n>
+        Ce champ est nécessaire.
+      </mat-error>
+    </mat-form-field>
+  </form-field>
+
+
+  <a idf-action  [routerLink]="['/sign-up']" i18n>
+    S'inscrire ?
+  </a>
+
+  <form-btn-content i18n>
+    Connexion
+  </form-btn-content>
+
+</app-form>

@@ -11,7 +11,7 @@ export class CustomSnackbar {
 
   private config(panelClass: string) {
     const baseConfig = {
-      duration: 3000000,
+      duration: 3000,
     } as MatSnackBarConfig
 
     return {

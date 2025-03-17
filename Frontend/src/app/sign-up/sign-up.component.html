@@ -1,10 +1,83 @@
-<app-identity-form (submitted)="createAccount($event)" [loading]="loading">
-  <span i18n idf-title>Inscription</span>
+<app-form [onSubmit]="onSubmit.bind(this)" [form]="form" >
+    <form-title i18n>Inscription</form-title>
 
-  <span idf-submit-content i18n>Inscription</span>
+    <form-field>
+      <mat-form-field>
+        <input required  matInput type="email" placeholder="Email" [formControl]="form.controls.email" />
+        <mat-error *ngIf="form.controls.email.invalid" i18n>
+          Adresse invalide.
+        </mat-error>
+      </mat-form-field>
+    </form-field>
 
-  <a [routerLink]="['/sign-in']" idf-middle i18n>Se connecter ?</a>
+    <!-- password field with the complexity rendering logics -->
+    <form-field>
+      <mat-form-field>
+        <input
+          matInput
+          i18n-placeholder
+          placeholder="Mot de passe"
+          type="password"
+          [formControl]="form.controls.password"
+          required
+        />
+        <mat-error *ngIf="form.controls.password.hasError('required')" i18n>
+          Ce champ est nécessaire.
+        </mat-error>
+        <mat-error  *ngIf="form.controls.password.hasError('codes')">
+          @switch (form.controls.password.errors!['codes'][0]) {
+            @case (PasswordErrorCodes.PasswordRequiresDigit) {
+              Un chiffre est nécessaire.
+            }
+            @case (PasswordErrorCodes.PasswordTooShort) {
+              Le mot de passe doit contenir au moins 8 caractères.
+            }
+            @case (PasswordErrorCodes.PasswordRequiresNonAlphanumeric) {
+              Un caractère spécial est nécessaire.
+            }
+            @case (PasswordErrorCodes.PasswordRequiresUpper) {
+              Une majuscule est nécessaire,
+            }
+            @case (PasswordErrorCodes.PasswordRequiresUniqueChars) {
+              <!-- purposefully ignore that case as it's always 1 -->
+            }
 
-</app-identity-form>
+            @case (PasswordErrorCodes.PasswordRequiresLower) {
+              Une minuscule est nécessaire.
+            }
+          }
+        </mat-error >
+      </mat-form-field>
+    </form-field>
+
+    <form-field>
+      <mat-form-field>
+        <input
+          matInput
+          i18n-placeholder
+          placeholder="Confirmation du mot de passe"
+          type="password"
+          required
+          [formControl]="form.controls.passwordConfirmation"
+        />
+        <mat-error *ngIf="form.controls.passwordConfirmation.hasError('required')" i18n>
+          Ce champ est nécessaire.
+        </mat-error>
+
+        <mat-error *ngIf="form.controls.passwordConfirmation.hasError('inequal')" i18n>
+          Les mots de passes ne correspondent pas.
+        </mat-error>
+
+      </mat-form-field>
+    </form-field>
 
 
+  <a idf-action  [routerLink]="['/sign-in']" i18n>
+    Se connecter ?
+  </a>
+
+  <form-btn-content i18n>
+    S'inscrire
+  </form-btn-content>
+
+  </app-form>

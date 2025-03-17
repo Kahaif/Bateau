@@ -1,0 +1,23 @@
+<div class="form" >
+  <form ngForm [formGroup]="form" novalidate (ngSubmit)="_onSubmit()"  >
+    <mat-card class="auth-card">
+
+      <ng-content select="form-title" />
+
+      <mat-card-content >
+        <ng-content  select="form-field" />
+      </mat-card-content>
+
+      <mat-card-actions>
+        <ng-content select="[idf-action]" />
+
+        <button  mat-flat-button  color="primary" type="submit" [disabled]="loading">
+          <mat-spinner  *ngIf="loading"></mat-spinner>
+          <span>
+            <ng-content select="form-btn-content"></ng-content>
+          </span>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
