@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {PasswordValidatorService} from './password-validator.service';
 import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {map} from 'rxjs/operators';
-import {IdentityResult} from '../models/identity-result';
-import {PasswordErrorCodes} from '../../app/sign-up/password-error.codes';
+import {PasswordErrorCodes} from '../sign-up/password-error.codes';
+import {PasswordValidatorService} from '../../api/services/password-validator.service';
+import {IdentityResult} from '../../api/models/identity-result';
 
 @Injectable({
   providedIn: 'root'
