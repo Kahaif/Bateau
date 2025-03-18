@@ -1,10 +1,17 @@
-import {Component, EventEmitter, Input, input, Output} from '@angular/core';
+import {
+  Component, contentChild, contentChildren, ContentChildren, Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+  QueryList,
+  TemplateRef, viewChildren,
+  ViewChildren
+} from '@angular/core';
 import {FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {finalize, Observable, Subscription} from 'rxjs';
-import {MatCard, MatCardActions, MatCardContent} from '@angular/material/card';
-import {MatButton} from '@angular/material/button';
-import {MatProgressSpinner} from '@angular/material/progress-spinner';
-import {NgIf} from '@angular/common';
+import {MatFormField} from '@angular/material/form-field';
 
 
 /**
@@ -19,7 +26,8 @@ import {NgIf} from '@angular/common';
   templateUrl: './form.component.html',
   styleUrl: './form.component.css'
 })
-export class FormComponent {
+export class FormComponent  {
+  fields = contentChildren<TemplateRef<unknown>>("field")
   loading = false
 
   @Input({
@@ -27,7 +35,9 @@ export class FormComponent {
   })
   form!: FormGroup;
 
-
+  ngOnInit() {
+    console.log(this.fields())
+  }
   @Input()
   submit!: () =>  Subscription;
 
@@ -38,4 +48,6 @@ export class FormComponent {
     this.loading = true
     this.submit().add(() => this.loading = false)
   }
+
+  protected readonly MatFormField = MatFormField;
 }

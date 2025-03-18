@@ -5,7 +5,11 @@
       <ng-content select="form-title" />
 
       <mat-card-content >
-        <ng-content  select="form-field" />
+        <div class="row" *ngFor="let field of fields()">
+          <div class="cell">
+            <ng-container *ngTemplateOutlet="field"  />
+          </div>
+        </div>
       </mat-card-content>
 
       <mat-card-actions>
@@ -14,7 +18,7 @@
         <button  mat-flat-button  color="primary" type="submit" [disabled]="loading">
           <mat-spinner  *ngIf="loading"></mat-spinner>
           <span>
-            <ng-content select="form-btn-content"></ng-content>
+            <ng-content select="[form-btn-content]"></ng-content>
           </span>
         </button>
       </mat-card-actions>

@@ -24,10 +24,6 @@ import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {ApiModule} from '../api/api.module';
 import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChip, MatChipSet} from '@angular/material/chips';
-import {FormComponent} from './form/form.component';
-import {FormFieldComponent} from './form/form-field.component';
-import {FormTitleComponent} from './form/form-title.component';
-import {FormButtonContentComponent} from './form/form-button-content.component';
 import {FormModule} from './form/form-module/form.module';
 
 
@@ -38,11 +34,10 @@ import {FormModule} from './form/form-module/form.module';
     ShipsGridComponent,
     ShipsGridItemComponent,
     ShipsDetailsComponent,
-
+    SignUpComponent,
+    SignInComponent,
   ],
   imports: [
-    SignInComponent,
-    SignUpComponent,
     FormModule,
     BrowserModule,
     AppRoutingModule,
@@ -60,7 +55,6 @@ import {FormModule} from './form/form-module/form.module';
     MatInput,
     MatCardActions,
     MatCardTitle,
-
     MatError,
     ApiModule.forRoot({rootUrl: environment.apiUrl}),
     MatProgressSpinner,

@@ -4,27 +4,11 @@ import {CustomSnackbar} from '../snackbar/custom-snackbar.service';
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserService} from '../../services/user-service/user.service';
 import {Router, RouterLink} from '@angular/router';
-import {MatError, MatFormField} from '@angular/material/form-field';
-import {FormFieldComponent} from '../form/form-field.component';
-import {FormTitleComponent} from '../form/form-title.component';
-import {FormComponent} from '../form/form.component';
-import {MatInput} from '@angular/material/input';
-import {NgIf} from '@angular/common';
-import {FormModule} from '../form/form-module/form.module';
 
 @Component({
   selector: 'app-sign-in',
-  standalone: true,
+  standalone: false,
   templateUrl: './sign-in.component.html',
-  imports: [
-    MatFormField,
-    FormModule,
-    ReactiveFormsModule,
-    MatInput,
-    MatError,
-    RouterLink,
-    NgIf
-  ],
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {
@@ -50,7 +34,7 @@ export class SignInComponent {
       },
 
       error: () =>
-        this._snackbar.error($localize`Aucune information d'identification n'a pas être trouvée.`)
+        this._snackbar.error($localize`Authentifation échoué. Veuillez ressayer.`)
 
     })
   }

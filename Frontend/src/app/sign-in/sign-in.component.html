@@ -1,16 +1,16 @@
 <app-form [submit]="onSubmit.bind(this)" [form]="form" >
   <form-title i18n>Connexion</form-title>
 
-  <form-field>
+  <ng-template #field>
     <mat-form-field>
       <input required  matInput type="email" placeholder="Email" [formControl]="form.controls.email" />
       <mat-error *ngIf="form.controls.email.invalid" i18n>
         Adresse invalide.
       </mat-error>
     </mat-form-field>
-  </form-field>
+  </ng-template>
 
-  <form-field>
+  <ng-template #field>
     <mat-form-field>
       <input
         matInput
@@ -24,8 +24,7 @@
         Ce champ est nécessaire.
       </mat-error>
     </mat-form-field>
-  </form-field>
-
+  </ng-template>
 
   <a idf-action  [routerLink]="['/sign-up']" i18n>
     S'inscrire ?
