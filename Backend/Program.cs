@@ -11,7 +11,7 @@ builder.Services.AddCors();
 
 // configuring the DB access to use Postgres
 builder.Services.AddDbContext<BateauDbContext>(
-    options => options.UseNpgsql("Postgres"));
+    options => options.UseNpgsql(builder.Configuration.GetConnectionString("pgdb")));
 
 
 // Identity configuration
@@ -62,5 +62,16 @@ app.UseHttpsRedirection();
 app.MapPost("/validatePassword", PasswordValidator.PreviewPasswordValidation)
 .WithName("Validate password")
 .WithOpenApi();
+
+
+// ensure the database exists, creating it if necessary.
+// This is only used here for demo purposes, obviously.
+if (app.Environment.IsDevelopment())
+{
+    using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+    var ctx = serviceScope.ServiceProvider.GetRequiredService<BateauDbContext>();
+    await ctx.Database.EnsureDeletedAsync();
+    await ctx.Database.EnsureCreatedAsync();
+}
 
 app.Run();

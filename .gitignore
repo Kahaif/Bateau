@@ -212,7 +212,7 @@ csx/
 ecf/
 rcf/
 
-Backend.AppHost/data/
+Bateau.AppHost/data/
 
 # Windows Store app package directories and files
 AppPackages/
