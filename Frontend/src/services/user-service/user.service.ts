@@ -16,7 +16,8 @@ import {AccessTokenResponse} from '../../api/models/access-token-response';
  */
 export class UserService {
   private readonly _storage = localStorage;
-  private readonly sessionKey = "jwt";
+  private readonly _sessionKey = "jwt";
+  private _lastTimeoutId: number = 0;
   constructor(private _identityService: IdentityService) {}
 
   private _session = signal<Session | undefined>(undefined);
@@ -51,11 +52,15 @@ export class UserService {
         .catch(this.logout)
   }
 
+  private startRefreshTimeout(expirationMs: number) {
+    this._lastTimeoutId = setTimeout(this.startRefreshCycle, expirationMs * 1000)
+  }
+
   // saves the given token into the storage and schedule another refresh
   private saveSession = (user: User, tokenResponse: AccessTokenResponse) => {
     const session = Session.fromApiToken(user, tokenResponse);
-    this._storage.setItem(this.sessionKey, session.toJson())
-    setTimeout(this.startRefreshCycle, tokenResponse.expiresIn)
+    this._storage.setItem(this._sessionKey, session.toJson())
+    this.startRefreshTimeout(tokenResponse.expiresIn)
     this._session.set(session)
   }
 
@@ -71,8 +76,9 @@ export class UserService {
 
   logout = () => {
     // Remark : no further backend calls are made.
-    this._storage.removeItem(this.sessionKey)
+    this._storage.removeItem(this._sessionKey)
     this._session.set(undefined)
+    clearTimeout(this._lastTimeoutId)
   }
 
   tryRestoreSessionFromStorage = async () =>  {
@@ -87,7 +93,7 @@ export class UserService {
     }
 
     this._session.set(storedSession)
-    setTimeout(this.startRefreshCycle, storedSession.absoluteExpirationTicks -  Date.now())
+    this.startRefreshTimeout(storedSession.absoluteExpirationTicks -  Date.now())
     return true;
   }
 
@@ -120,7 +126,7 @@ export class UserService {
 
 
   private get storedUser(): Session | null {
-    const jsonStoredInfo = this._storage.getItem(this.sessionKey)
+    const jsonStoredInfo = this._storage.getItem(this._sessionKey)
     if (!jsonStoredInfo) {
       return null;
     }

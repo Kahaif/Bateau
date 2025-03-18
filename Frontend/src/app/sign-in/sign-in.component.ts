@@ -34,7 +34,7 @@ export class SignInComponent {
       },
 
       error: () =>
-        this._snackbar.error($localize`Authentifation échoué. Veuillez ressayer.`)
+        this._snackbar.error($localize`Authentification échoué. Veuillez ressayer.`)
 
     })
   }

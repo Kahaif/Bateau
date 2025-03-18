@@ -16,10 +16,7 @@
         <ng-content select="[idf-action]" />
 
         <button  mat-flat-button  color="primary" type="submit" [disabled]="loading">
-          <mat-spinner  *ngIf="loading"></mat-spinner>
-          <span>
-            <ng-content select="[form-btn-content]"></ng-content>
-          </span>
+          <ng-content select="[form-btn-content]"></ng-content>
         </button>
       </mat-card-actions>
     </mat-card>

@@ -14,7 +14,7 @@ export class CustomValidators {
   /**
    * Enables server-side password validation for the current control.
    */
-  password(pwdControl: AbstractControl) {
+  password = (pwdControl: AbstractControl) => {
     // We don't duplicate the validation logic, so the validation is made on the server-side
     const body = {
       body: {
@@ -30,7 +30,7 @@ export class CustomValidators {
    * Returns a validator ensuring that two controls values are the same
    * @param targetControl target control of which the current control should have the same value as
    */
-  sameAs(targetControl: AbstractControl) {
+  sameAs = (targetControl: AbstractControl) => {
     return (subjectControl:  AbstractControl) => {
 
       if (targetControl.value === subjectControl.value) {

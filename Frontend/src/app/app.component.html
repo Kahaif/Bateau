@@ -5,7 +5,8 @@
     mat-button
     color="red"
     i18n
-    *ngIf="loggedIn"
+    (click)="clickLogout()"
+    *ngIf="_userService.loggedIn()"
   >
     Déconnexion
   </button>

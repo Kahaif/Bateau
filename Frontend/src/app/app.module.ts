@@ -25,8 +25,7 @@ import {ApiModule} from '../api/api.module';
 import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChip, MatChipSet} from '@angular/material/chips';
 import {FormModule} from './form/form-module/form.module';
-
-
+import {NoopComponent} from './noop.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +35,7 @@ import {FormModule} from './form/form-module/form.module';
     ShipsDetailsComponent,
     SignUpComponent,
     SignInComponent,
+    NoopComponent
   ],
   imports: [
     FormModule,

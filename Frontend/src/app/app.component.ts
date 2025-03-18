@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from '../services/user-service/user.service';
+import {CustomSnackbar} from './snackbar/custom-snackbar.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +9,33 @@ import {UserService} from '../services/user-service/user.service';
   standalone: false,
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(private _userService: UserService) {
+  constructor(protected _userService: UserService, private _snackbar: CustomSnackbar, private _router: Router) {
   }
 
-  get loggedIn() {
-    return this._userService.loggedIn()
+  clickLogout = () => {
+    this._userService.logout()
+    this._router.navigate(['/sign-in'])
+  }
+
+  ngOnInit(): void {
+    // verify session status.
+    // If the user is logged in, continue as is.
+    // Else, try to restore the state from the store
+    if (this._userService.loggedIn()) {
+      return;
+    }
+
+    this._userService.tryRestoreSessionFromStorage()
+      .then(couldRestore => {
+        if (!couldRestore) {
+          this._router.navigate(['/sign-in'])
+          return;
+        }
+
+        this._router.navigate(['/ships'])
+
+      })
   }
 }
