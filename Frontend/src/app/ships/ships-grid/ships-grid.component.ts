@@ -8,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class ShipsGridComponent {
 
+  constructor() {
+  }
+
+
+
+
 }

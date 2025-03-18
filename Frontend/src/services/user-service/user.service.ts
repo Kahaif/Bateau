@@ -53,14 +53,14 @@ export class UserService {
   }
 
   private startRefreshTimeout(expirationMs: number) {
-    this._lastTimeoutId = setTimeout(this.startRefreshCycle, expirationMs * 1000)
+    this._lastTimeoutId = setTimeout(() => this.startRefreshCycle(), expirationMs)
   }
 
   // saves the given token into the storage and schedule another refresh
   private saveSession = (user: User, tokenResponse: AccessTokenResponse) => {
     const session = Session.fromApiToken(user, tokenResponse);
     this._storage.setItem(this._sessionKey, session.toJson())
-    this.startRefreshTimeout(tokenResponse.expiresIn)
+    this.startRefreshTimeout(tokenResponse.expiresIn * 1000)
     this._session.set(session)
   }
 
@@ -81,20 +81,23 @@ export class UserService {
     clearTimeout(this._lastTimeoutId)
   }
 
+  get isSessionStored()  {
+    return this.storedUser !== null;
+  }
+
+
   tryRestoreSessionFromStorage = async () =>  {
     const storedSession = this.storedUser;
     if (storedSession === null) {
-      return false
+      throw new Error("Trying to restore the session despite there being no session stored.")
     }
 
     if (storedSession.isExpired) {
       return this.startRefreshCycle()
-        .then(() => true);
     }
-
     this._session.set(storedSession)
     this.startRefreshTimeout(storedSession.absoluteExpirationTicks -  Date.now())
-    return true;
+    console.log(storedSession.absoluteExpirationTicks -  Date.now())
   }
 
   /**

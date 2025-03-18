@@ -7,17 +7,30 @@ import {CustomSnackbar} from './app/snackbar/custom-snackbar.service';
  * Guard which prevent the user from going in some pages when he's logged out.
  * Redirects him to the sign in page if he's not logged in.
  */
-export function AuthGuard() {
+export async function AuthGuard() {
   const auth = inject(UserService);
   const router = inject(Router);
   const snackbar = inject(CustomSnackbar)
 
-  if(!auth.loggedIn()) {
-    snackbar.error($localize`Vous devez être connecté pour accéder à cette page.`)
-    router.navigateByUrl('/sign-in')
-    return false
+  if (auth.loggedIn()) {
+    return true;
   }
-  return true
+
+  if (auth.isSessionStored) {
+      return auth.tryRestoreSessionFromStorage()
+        .then(() => {
+          router.navigateByUrl("/ships")
+          return true;
+        })
+        .catch(() => {
+          router.navigateByUrl("/sign-in");
+          return false
+        })
+  }
+
+  snackbar.error($localize`Vous devez être connecté pour accéder à cette page.`)
+  router.navigateByUrl("/sign-in");
+  return false;
 }
 
 /**

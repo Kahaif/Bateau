@@ -58,6 +58,6 @@ export default class Session implements StoredSession {
       user,
       apiToken.accessToken!,
       apiToken.refreshToken!,
-      Date.now() + apiToken.expiresIn);
+      Date.now() + apiToken.expiresIn * 1000);
   }
 }

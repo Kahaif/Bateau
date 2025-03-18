@@ -20,22 +20,5 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // verify session status.
-    // If the user is logged in, continue as is.
-    // Else, try to restore the state from the store
-    if (this._userService.loggedIn()) {
-      return;
-    }
-
-    this._userService.tryRestoreSessionFromStorage()
-      .then(couldRestore => {
-        if (!couldRestore) {
-          this._router.navigate(['/sign-in'])
-          return;
-        }
-
-        this._router.navigate(['/ships'])
-
-      })
   }
 }

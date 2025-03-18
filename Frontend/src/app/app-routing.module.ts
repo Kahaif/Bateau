@@ -9,11 +9,12 @@ import {NoopComponent} from './noop.component';
 
 
 const routes: Routes = [
-  { path: '', component: NoopComponent, pathMatch: 'full' },
+  { path: '', redirectTo: "/ships", pathMatch: 'full' },
   {
     title: $localize`Connexion`,
     path: 'sign-in',
     component: SignInComponent,
+
     canActivate: [NonAuthGuard] // hide if already logged in
   },
   {
