@@ -5,4 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Backend.Persistence;
 
 
-public class BateauDbContext(DbContextOptions<BateauDbContext> opt) : IdentityDbContext<User>(opt);
+public class BateauDbContext(DbContextOptions<BateauDbContext> opt) : IdentityDbContext<User>(opt)
+{
+    public DbSet<Ship> Ships { get; set; }
+}

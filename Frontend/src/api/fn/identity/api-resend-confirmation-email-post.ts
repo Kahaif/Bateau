@@ -8,14 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ForgotPasswordRequest } from '../../models/forgot-password-request';
+import { ResendConfirmationEmailRequest } from '../../models/resend-confirmation-email-request';
 
-export interface ForgotPasswordPost$Params {
-      body?: ForgotPasswordRequest
+export interface ApiResendConfirmationEmailPost$Params {
+      body?: ResendConfirmationEmailRequest
 }
 
-export function forgotPasswordPost(http: HttpClient, rootUrl: string, params?: ForgotPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, forgotPasswordPost.PATH, 'post');
+export function apiResendConfirmationEmailPost(http: HttpClient, rootUrl: string, params?: ApiResendConfirmationEmailPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, apiResendConfirmationEmailPost.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -30,4 +30,4 @@ export function forgotPasswordPost(http: HttpClient, rootUrl: string, params?: F
   );
 }
 
-forgotPasswordPost.PATH = '/forgotPassword';
+apiResendConfirmationEmailPost.PATH = '/api/resendConfirmationEmail';

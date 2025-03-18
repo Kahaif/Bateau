@@ -2,17 +2,32 @@ using Backend.Endpoints.Identity;
 using Backend.Persistence;
 using Backend.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
+builder.Services.AddControllers();
 builder.Services.AddCors();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication();
+
+builder.Services.AddSwaggerGen(o =>
+{
+    o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+});
 
 // configuring the DB access to use Postgres
 builder.Services.AddDbContext<BateauDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("pgdb")));
-
+    
 
 // Identity configuration
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
@@ -30,8 +45,18 @@ var app = builder.Build();
 // Map identity presets endpoints
 // This maps common endpoints, such as sign up, sign in and token refreshing endpoints.
 // cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
-app.MapIdentityApi<User>()
+app
+    .MapGroup("/api")
+    .MapIdentityApi<User>()
     .WithTags("Identity");
+
+
+app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
+
+
 
 if (app.Environment.IsDevelopment())
 {
@@ -56,6 +81,7 @@ app.UseCors((policyBuilder) =>
     }
 });
 
+
 app.UseHttpsRedirection();
 
 
@@ -70,7 +96,6 @@ if (app.Environment.IsDevelopment())
 {
     using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
     var ctx = serviceScope.ServiceProvider.GetRequiredService<BateauDbContext>();
-    await ctx.Database.EnsureDeletedAsync();
     await ctx.Database.EnsureCreatedAsync();
 }
 

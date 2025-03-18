@@ -8,19 +8,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { RegisterRequest } from '../../models/register-request';
 
-export interface MapIdentityApiConfirmEmail$Params {
-  userId?: string;
-  code?: string;
-  changedEmail?: string;
+export interface ApiRegisterPost$Params {
+      body?: RegisterRequest
 }
 
-export function mapIdentityApiConfirmEmail(http: HttpClient, rootUrl: string, params?: MapIdentityApiConfirmEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, mapIdentityApiConfirmEmail.PATH, 'get');
+export function apiRegisterPost(http: HttpClient, rootUrl: string, params?: ApiRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, apiRegisterPost.PATH, 'post');
   if (params) {
-    rb.query('userId', params.userId, {});
-    rb.query('code', params.code, {});
-    rb.query('changedEmail', params.changedEmail, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -33,4 +30,4 @@ export function mapIdentityApiConfirmEmail(http: HttpClient, rootUrl: string, pa
   );
 }
 
-mapIdentityApiConfirmEmail.PATH = '/confirmEmail';
+apiRegisterPost.PATH = '/api/register';

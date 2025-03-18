@@ -7,18 +7,14 @@ var dbUsername = builder.AddParameter("dbUsername", "postgres");
 var db = builder.AddPostgres("Postgres", dbPassword, dbUsername, 5432)
     .WithDataBindMount("./data", isReadOnly: false)
     .WithPgWeb()
+    .PublishAsContainer()
     .AddDatabase("pgdb", "bateau");
 
 
 var backend = builder.AddProject<Projects.Backend>("backend")
-    //.WithHttpEndpoint(7042, 443)
     .PublishAsDockerFile()
     .WithReference(db)
     .WaitFor(db);
-
-builder.AddContainer("mailSink", "haravich/fake-smtp-server")
-    .WithHttpEndpoint(1080, 1080)
-    .WithEndpoint(1025, 1025);
 
 builder.AddNpmApp("angular", "../Frontend")
     .WithReference(backend)

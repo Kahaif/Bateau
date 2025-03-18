@@ -8,16 +8,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ResetPasswordRequest } from '../../models/reset-password-request';
 
-export interface ResetPasswordPost$Params {
-      body?: ResetPasswordRequest
+export interface MapIdentityApiApiConfirmEmail$Params {
+  userId?: string;
+  code?: string;
+  changedEmail?: string;
 }
 
-export function resetPasswordPost(http: HttpClient, rootUrl: string, params?: ResetPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, resetPasswordPost.PATH, 'post');
+export function mapIdentityApiApiConfirmEmail(http: HttpClient, rootUrl: string, params?: MapIdentityApiApiConfirmEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, mapIdentityApiApiConfirmEmail.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.query('userId', params.userId, {});
+    rb.query('code', params.code, {});
+    rb.query('changedEmail', params.changedEmail, {});
   }
 
   return http.request(
@@ -30,4 +33,4 @@ export function resetPasswordPost(http: HttpClient, rootUrl: string, params?: Re
   );
 }
 
-resetPasswordPost.PATH = '/resetPassword';
+mapIdentityApiApiConfirmEmail.PATH = '/api/confirmEmail';

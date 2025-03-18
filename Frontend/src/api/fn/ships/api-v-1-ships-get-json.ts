@@ -8,24 +8,24 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { InfoResponse } from '../../models/info-response';
+import { ShipDto } from '../../models/ship-dto';
 
-export interface ManageInfoGet$Params {
+export interface ApiV1ShipsGet$Json$Params {
 }
 
-export function manageInfoGet(http: HttpClient, rootUrl: string, params?: ManageInfoGet$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
-  const rb = new RequestBuilder(rootUrl, manageInfoGet.PATH, 'get');
+export function apiV1ShipsGet$Json(http: HttpClient, rootUrl: string, params?: ApiV1ShipsGet$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+  const rb = new RequestBuilder(rootUrl, apiV1ShipsGet$Json.PATH, 'get');
   if (params) {
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'json', accept: 'text/json', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<InfoResponse>;
+      return r as StrictHttpResponse<Array<ShipDto>>;
     })
   );
 }
 
-manageInfoGet.PATH = '/manage/info';
+apiV1ShipsGet$Json.PATH = '/api/v1/Ships';

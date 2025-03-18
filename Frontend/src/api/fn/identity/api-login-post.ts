@@ -11,14 +11,14 @@ import { RequestBuilder } from '../../request-builder';
 import { AccessTokenResponse } from '../../models/access-token-response';
 import { LoginRequest } from '../../models/login-request';
 
-export interface LoginPost$Params {
+export interface ApiLoginPost$Params {
   useCookies?: boolean;
   useSessionCookies?: boolean;
       body?: LoginRequest
 }
 
-export function loginPost(http: HttpClient, rootUrl: string, params?: LoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
-  const rb = new RequestBuilder(rootUrl, loginPost.PATH, 'post');
+export function apiLoginPost(http: HttpClient, rootUrl: string, params?: ApiLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
+  const rb = new RequestBuilder(rootUrl, apiLoginPost.PATH, 'post');
   if (params) {
     rb.query('useCookies', params.useCookies, {});
     rb.query('useSessionCookies', params.useSessionCookies, {});
@@ -35,4 +35,4 @@ export function loginPost(http: HttpClient, rootUrl: string, params?: LoginPost$
   );
 }
 
-loginPost.PATH = '/login';
+apiLoginPost.PATH = '/api/login';

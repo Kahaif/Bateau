@@ -4,3 +4,4 @@
 
 export { IdentityService } from './services/identity.service';
 export { PasswordValidatorService } from './services/password-validator.service';
+export { ShipsService } from './services/ships.service';

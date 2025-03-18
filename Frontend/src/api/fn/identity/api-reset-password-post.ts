@@ -8,14 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { RegisterRequest } from '../../models/register-request';
+import { ResetPasswordRequest } from '../../models/reset-password-request';
 
-export interface RegisterPost$Params {
-      body?: RegisterRequest
+export interface ApiResetPasswordPost$Params {
+      body?: ResetPasswordRequest
 }
 
-export function registerPost(http: HttpClient, rootUrl: string, params?: RegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, registerPost.PATH, 'post');
+export function apiResetPasswordPost(http: HttpClient, rootUrl: string, params?: ApiResetPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, apiResetPasswordPost.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -30,4 +30,4 @@ export function registerPost(http: HttpClient, rootUrl: string, params?: Registe
   );
 }
 
-registerPost.PATH = '/register';
+apiResetPasswordPost.PATH = '/api/resetPassword';

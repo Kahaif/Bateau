@@ -8,6 +8,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { IdentityService } from './services/identity.service';
 import { PasswordValidatorService } from './services/password-validator.service';
+import { ShipsService } from './services/ships.service';
 
 /**
  * Module that provides all services and configuration.
@@ -19,6 +20,7 @@ import { PasswordValidatorService } from './services/password-validator.service'
   providers: [
     IdentityService,
     PasswordValidatorService,
+    ShipsService,
     ApiConfiguration
   ],
 })

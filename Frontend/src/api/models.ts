@@ -15,5 +15,6 @@ export { RegisterRequest } from './models/register-request';
 export { Request } from './models/request';
 export { ResendConfirmationEmailRequest } from './models/resend-confirmation-email-request';
 export { ResetPasswordRequest } from './models/reset-password-request';
+export { ShipDto } from './models/ship-dto';
 export { TwoFactorRequest } from './models/two-factor-request';
 export { TwoFactorResponse } from './models/two-factor-response';
