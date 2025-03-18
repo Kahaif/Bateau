@@ -1,13 +1,10 @@
-import {Component, inject, Output, signal} from '@angular/core';
-import {IdentityService} from '../../api/services/identity.service';
+import {Component, inject} from '@angular/core';
 import {CustomSnackbar} from '../snackbar/custom-snackbar.service';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {CustomValidators} from '../../api/services/custom-validators';
-import {RegisterPost$Params} from '../../api/fn/identity/register-post';
-import {RegisterRequest} from '../../api/models/register-request';
+import {FormBuilder, Validators} from '@angular/forms';
 import {PasswordErrorCodes} from './password-error.codes';
 import {subscribeOn} from 'rxjs';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../services/user-service/user.service';
+import {CustomValidators} from '../form/custom-validators';
 
 @Component({
   selector: 'app-sign-up',
@@ -23,7 +20,6 @@ export class SignUpComponent {
   //@ts-expect-error
   form! = this._fb.group({
     email: [null, Validators.email],
-
     password: [null, Validators.required, this._validators.password],
     passwordConfirmation: [null, Validators.required]
   })

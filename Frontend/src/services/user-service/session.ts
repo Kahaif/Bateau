@@ -1,4 +1,4 @@
-import {AccessTokenResponse} from "../api/models/access-token-response";
+import {AccessTokenResponse} from "../../api/models/access-token-response";
 
 export interface User {
   email: string;

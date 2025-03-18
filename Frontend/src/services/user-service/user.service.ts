@@ -1,12 +1,12 @@
 import {computed, Injectable, signal} from '@angular/core';
-import {IdentityService} from '../api/services/identity.service';
-import {LoginPost$Params} from '../api/fn/identity/login-post';
-import {RegisterPost$Params} from '../api/fn/identity/register-post';
+import {IdentityService} from '../../api/services/identity.service';
+import {LoginPost$Params} from '../../api/fn/identity/login-post';
+import {RegisterPost$Params} from '../../api/fn/identity/register-post';
 import {tap} from 'rxjs';
-import {RefreshPost$Params} from '../api/fn/identity/refresh-post';
+import {RefreshPost$Params} from '../../api/fn/identity/refresh-post';
 import {map} from 'rxjs/operators';
 import Session, {User} from './session';
-import {AccessTokenResponse} from '../api/models/access-token-response';
+import {AccessTokenResponse} from '../../api/models/access-token-response';
 
 @Injectable({
   providedIn: 'root'

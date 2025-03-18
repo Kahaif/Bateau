@@ -1,8 +1,8 @@
 import {TestBed} from '@angular/core/testing';
 
 import { UserService } from './user.service';
-import {IdentityService} from '../api/services/identity.service';
-import {AccessTokenResponse} from '../api/models/access-token-response';
+import {IdentityService} from '../../api/services/identity.service';
+import {AccessTokenResponse} from '../../api/models/access-token-response';
 import createSpyObj = jasmine.createSpyObj;
 import {first, firstValueFrom, Observable} from 'rxjs';
 

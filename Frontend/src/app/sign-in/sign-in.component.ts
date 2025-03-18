@@ -2,7 +2,7 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA, inject} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {CustomSnackbar} from '../snackbar/custom-snackbar.service';
 import {FormBuilder, Validators} from '@angular/forms';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../services/user-service/user.service';
 import {Router} from '@angular/router';
 
 @Component({

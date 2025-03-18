@@ -1,5 +1,5 @@
 import Session, {User} from './session';
-import {AccessTokenResponse} from '../api/models/access-token-response';
+import {AccessTokenResponse} from '../../api/models/access-token-response';
 
 const user : User = {
   email: ""
