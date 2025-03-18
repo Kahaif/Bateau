@@ -1,4 +1,4 @@
-import {TestBed} from '@angular/core/testing';
+import {fakeAsync, TestBed} from '@angular/core/testing';
 
 import { UserService } from './user.service';
 import {IdentityService} from '../../api/services/identity.service';
@@ -7,6 +7,7 @@ import createSpyObj = jasmine.createSpyObj;
 import {first, firstValueFrom, Observable} from 'rxjs';
 
 describe('UserService', () => {
+  const clock = jasmine.clock().install()
   let userService: UserService;
   let identityApiService: jasmine.SpyObj<IdentityService>;
   const successTokenResponse: AccessTokenResponse = {
@@ -50,14 +51,49 @@ describe('UserService', () => {
 
     identityApiService = TestBed.inject(IdentityService) as jasmine.SpyObj<IdentityService>;
     userService = TestBed.inject(UserService);
+    userService.logout() // clear the underlying storage
   });
 
 
-  describe('session retrieval', () => {
-    it("should be succesful when the token has not expired", () => {
+  describe('session restoring', () => {
 
+    it("should not be successful when there isn't any stored session", async () => {
+      // arrange
+
+      // act
+      const res = await userService.tryRestoreSessionFromStorage();
+
+      // assert
+      expect(res).toBeFalse()
     })
 
+    it("should be succesful when the user has logged in previously", async () => {
+      // arrange
+      identityApiService.loginPost.and.returnValues(successObservable);
+
+      // act
+      await firstValueFrom(userService.login("mail", ""))
+      const res = await userService.tryRestoreSessionFromStorage()
+
+      // assert
+      expect(res).toBeTrue()
+    })
+
+    it("should restore from storage if there's no session and there's storage", async () => {
+      // arrange : create another service with cleared out state
+      identityApiService.loginPost.and.returnValues(successObservable)
+
+      // act 1 : login sucessfuly
+      await firstValueFrom(userService.login("", ""))
+
+      // act 2 : restore from storage
+      const newService = TestBed.inject(UserService)
+      const res = await newService.tryRestoreSessionFromStorage()
+
+      // assert
+      expect(res).toBeTrue()
+      expect(newService.loggedIn()).toBeTrue()
+    })
   })
 
   describe('succesful login', () => {
@@ -85,9 +121,9 @@ describe('UserService', () => {
       expect(userService.session().accessToken).toBe(successTokenResponse.accessToken!);
     })
 
-    it('should start the refresh timeout', async () => {
+    it('should start the refresh timeout', fakeAsync(async () => {
+
       // arrange
-      const clock = jasmine.clock().install()
       identityApiService.loginPost.and.returnValues(successObservable);
       identityApiService.refreshPost
         .and
@@ -95,12 +131,10 @@ describe('UserService', () => {
 
       // act
       await firstValueFrom(userService.login(subjectEmail, ""))
-
       // act : wait for the access token expiration
-      clock.tick(successTokenResponse.expiresIn + 1)
-
+      clock.tick(successTokenResponse.expiresIn + 100)
       // assert
       expect(userService.session().accessToken).toBe(refreshTokenRes.accessToken!)
-    })
+    }))
   })
 });

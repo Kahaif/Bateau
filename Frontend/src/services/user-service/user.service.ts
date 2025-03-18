@@ -2,7 +2,7 @@ import {computed, Injectable, signal} from '@angular/core';
 import {IdentityService} from '../../api/services/identity.service';
 import {LoginPost$Params} from '../../api/fn/identity/login-post';
 import {RegisterPost$Params} from '../../api/fn/identity/register-post';
-import {tap} from 'rxjs';
+import {firstValueFrom, tap} from 'rxjs';
 import {RefreshPost$Params} from '../../api/fn/identity/refresh-post';
 import {map} from 'rxjs/operators';
 import Session, {User} from './session';
@@ -25,32 +25,37 @@ export class UserService {
       throw new Error("Trying to access a non-existing session. This probably is a dev-time issue.");
     }
     return this._session()!;
+  }, {
+    equal: (x, y) => x === y
   })
   loggedIn = computed(() => this._session() !== undefined)
 
-  // Refresh the access token using the refresh token and set another refresh timeout.
-  // The refresh token is retrieved from the underlying _storage as to avoid handing issues.
-  private doRefresh = () => {
-    const storedSession = this.storedUser!;
+
+  private makeRefreshRequest = (refreshToken: string) => {
     const req: RefreshPost$Params = {
       body: {
-        refreshToken: storedSession.refreshToken
+        refreshToken
       }
     }
 
     // HttpClient is automatically unsubscribed
     return this._identityService.refreshPost(req)
-      .subscribe({
-        next: (res) => this.saveSession(storedSession.user, res),
-        error: this.logout
-      })
+  }
+
+  // Refresh the access token using the refresh token and set another refresh timeout.
+  // The refresh token is retrieved from the underlying _storage as to avoid handing issues.
+  private startRefreshCycle = () => {
+    const storedSession = this.storedUser!;
+      return firstValueFrom(this.makeRefreshRequest(storedSession.refreshToken))
+        .then((token) => this.saveSession(storedSession.user, token))
+        .catch(this.logout)
   }
 
   // saves the given token into the storage and schedule another refresh
   private saveSession = (user: User, tokenResponse: AccessTokenResponse) => {
     const session = Session.fromApiToken(user, tokenResponse);
     this._storage.setItem(this.sessionKey, session.toJson())
-    setTimeout(this.doRefresh, tokenResponse.expiresIn)
+    setTimeout(this.startRefreshCycle, tokenResponse.expiresIn)
     this._session.set(session)
   }
 
@@ -65,9 +70,25 @@ export class UserService {
   }
 
   logout = () => {
-    // Remark : no further backend calls are made. We assume the auth system is stateless.
+    // Remark : no further backend calls are made.
     this._storage.removeItem(this.sessionKey)
     this._session.set(undefined)
+  }
+
+  tryRestoreSessionFromStorage = async () =>  {
+    const storedSession = this.storedUser;
+    if (storedSession === null) {
+      return false
+    }
+
+    if (storedSession.isExpired) {
+      return this.startRefreshCycle()
+        .then(() => true);
+    }
+
+    this._session.set(storedSession)
+    setTimeout(this.startRefreshCycle, storedSession.absoluteExpirationTicks -  Date.now())
+    return true;
   }
 
   /**
@@ -80,12 +101,11 @@ export class UserService {
         email,
         password: password
       }
-    };
+    }
 
     const user: User = {
       email
     }
-
 
     return this._identityService.loginPost(req)
       .pipe(

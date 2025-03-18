@@ -28,21 +28,22 @@ import {FormComponent} from './form/form.component';
 import {FormFieldComponent} from './form/form-field.component';
 import {FormTitleComponent} from './form/form-title.component';
 import {FormButtonContentComponent} from './form/form-button-content.component';
+import {FormModule} from './form/form-module/form.module';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
     ShipsGridComponent,
     ShipsGridItemComponent,
     ShipsDetailsComponent,
-    SignUpComponent,
-    FormComponent,
-    FormFieldComponent,
-    FormTitleComponent,
-    FormButtonContentComponent
+
   ],
   imports: [
+    SignInComponent,
+    SignUpComponent,
+    FormModule,
     BrowserModule,
     AppRoutingModule,
     MatSlideToggleModule,

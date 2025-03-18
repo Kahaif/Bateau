@@ -1,4 +1,4 @@
-<app-form [onSubmit]="onSubmit.bind(this)" [form]="form" >
+<app-form [submit]="onSubmit.bind(this)" [form]="form" >
   <form-title i18n>Connexion</form-title>
 
   <form-field>
@@ -10,7 +10,6 @@
     </mat-form-field>
   </form-field>
 
-  <!-- password field with the complexity rendering logics -->
   <form-field>
     <mat-form-field>
       <input

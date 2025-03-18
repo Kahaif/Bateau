@@ -1,16 +1,34 @@
 import {Component, inject} from '@angular/core';
 import {CustomSnackbar} from '../snackbar/custom-snackbar.service';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {PasswordErrorCodes} from './password-error.codes';
 import {subscribeOn} from 'rxjs';
 import {UserService} from '../../services/user-service/user.service';
 import {CustomValidators} from '../form/custom-validators';
+import {FormComponent} from '../form/form.component';
+import {MatError, MatFormField} from '@angular/material/form-field';
+import {NgIf} from '@angular/common';
+import {RouterLink, RouterModule} from '@angular/router';
+import {MatInput} from '@angular/material/input';
+import {FormFieldComponent} from '../form/form-field.component';
+import {FormTitleComponent} from '../form/form-title.component';
+import {FormButtonContentComponent} from '../form/form-button-content.component';
+import {FormModule} from '../form/form-module/form.module';
 
 @Component({
   selector: 'app-sign-up',
-  standalone: false,
+  standalone: true,
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css',
+  imports: [
+    FormModule,
+    MatFormField,
+    ReactiveFormsModule,
+    NgIf,
+    RouterModule,
+    MatInput,
+    MatError
+  ],
 })
 export class SignUpComponent {
   private _snackbar = inject(CustomSnackbar)

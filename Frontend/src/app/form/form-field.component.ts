@@ -8,7 +8,7 @@ import {Component, ViewChild, viewChildren, ViewChildren} from "@angular/core";
   template: `
     <div class="row">
       <div class="col">
-          <ng-content />
+        <ng-content/>
       </div>
     </div>
   `

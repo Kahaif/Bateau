@@ -1,14 +1,30 @@
 import {Component, CUSTOM_ELEMENTS_SCHEMA, inject} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {CustomSnackbar} from '../snackbar/custom-snackbar.service';
-import {FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {UserService} from '../../services/user-service/user.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
+import {MatError, MatFormField} from '@angular/material/form-field';
+import {FormFieldComponent} from '../form/form-field.component';
+import {FormTitleComponent} from '../form/form-title.component';
+import {FormComponent} from '../form/form.component';
+import {MatInput} from '@angular/material/input';
+import {NgIf} from '@angular/common';
+import {FormModule} from '../form/form-module/form.module';
 
 @Component({
   selector: 'app-sign-in',
-  standalone: false,
+  standalone: true,
   templateUrl: './sign-in.component.html',
+  imports: [
+    MatFormField,
+    FormModule,
+    ReactiveFormsModule,
+    MatInput,
+    MatError,
+    RouterLink,
+    NgIf
+  ],
   styleUrl: './sign-in.component.css'
 })
 export class SignInComponent {

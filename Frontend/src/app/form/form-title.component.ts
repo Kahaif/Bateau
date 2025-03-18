@@ -4,9 +4,9 @@ import {Component} from "@angular/core";
   selector: 'form-title',
   standalone: false,
   template: `
-    <mat-card-header >
+    <mat-card-header>
       <mat-card-title>
-        <ng-content />
+        <ng-content/>
       </mat-card-title>
     </mat-card-header>`
 })

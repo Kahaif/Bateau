@@ -1,4 +1,4 @@
-<app-form [onSubmit]="onSubmit.bind(this)" [form]="form" >
+<app-form [submit]="onSubmit.bind(this)" [form]="form" >
     <form-title i18n>Inscription</form-title>
 
     <form-field>
@@ -72,7 +72,7 @@
     </form-field>
 
 
-  <a idf-action  [routerLink]="['/sign-in']" i18n>
+  <a idf-action [routerLink]="['/sign-in']" i18n>
     Se connecter ?
   </a>
 
