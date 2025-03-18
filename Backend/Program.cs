@@ -13,6 +13,7 @@ builder.Services.AddCors();
 builder.Services.AddDbContext<BateauDbContext>(
     options => options.UseNpgsql("Postgres"));
 
+
 // Identity configuration
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
     {
@@ -27,6 +28,7 @@ var app = builder.Build();
 
 
 // Map identity presets endpoints
+// This maps common endpoints, such as sign up, sign in and token refreshing endpoints.
 // cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
 app.MapIdentityApi<User>()
     .WithTags("Identity");

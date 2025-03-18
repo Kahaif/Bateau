@@ -23,18 +23,18 @@ export class SignUpComponent {
   //@ts-expect-error
   form! = this._fb.group({
     email: [null, Validators.email],
-    // binding is needed to use 'this' in the validators
-    password: [null, Validators.required, this._validators.password.bind(this._validators)],
+
+    password: [null, Validators.required, this._validators.password],
     passwordConfirmation: [null, Validators.required]
   })
 
   ngOnInit() {
     this.form.get("passwordConfirmation")?.addValidators(
-      this._validators.sameAs(this.form.controls.password).bind(this._validators)
+      this._validators.sameAs(this.form.controls.password)
     )
   }
 
-  onSubmit() {
+  onSubmit = () => {
     return this._userService.signUp(
       this.form.controls.email.value!,
       this.form.controls.password.value!
