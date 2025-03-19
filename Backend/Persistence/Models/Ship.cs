@@ -17,5 +17,4 @@ public class Ship
     public User User { get; set; }
     public string UserId { get; set; }
 
-
 }

@@ -1,3 +1,4 @@
+using Backend.Business;
 using Backend.Endpoints.Identity;
 using Backend.Persistence;
 using Backend.Persistence.Models;
@@ -7,6 +8,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSingleton<INameNormalizer, NameNormalizer>();
+builder.Services.AddScoped<IShipService, ShipService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddCors();

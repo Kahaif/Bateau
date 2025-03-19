@@ -9,6 +9,18 @@ import {map} from 'rxjs/operators';
 import {ShipMutationRequest} from '../../../api/models/ship-mutation-request';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {ApiV1ShipsIdPut$Json$Params} from '../../../api/fn/ships/api-v-1-ships-id-put-json';
+import {HttpErrorResponse, HttpStatusCode} from '@angular/common/http';
+import {CustomSnackbar} from '../../snackbar/custom-snackbar.service';
+function dtoToRequest(res: ShipDto | null) : ShipMutationRequest | null {
+  if (!res) {
+    return null
+  }
+
+  return {
+    name: res.name!,
+    description: res.description!
+  }
+}
 
 
 @Component({
@@ -22,28 +34,21 @@ export class ShipsGridComponent  {
   private readonly _dialog = inject(MatDialog)
   private readonly _fb = inject(NonNullableFormBuilder)
   private readonly _shipService = inject(ShipsService)
-  protected readonly creationForm = this._fb.group({
-    name: ["", Validators.required],
-    description: ["", Validators.required]
-  })
+  private readonly _snackbar = inject(CustomSnackbar)
 
   protected loading = true
   private _allShips = signal<ShipDto[]>([])
   protected allShips = this._allShips.asReadonly()
 
-  private dtoToRequest(res: ShipDto | null) : ShipMutationRequest | null {
-    if (!res) {
-      return null
-    }
-
-    return {
-      name: res.name!,
-      description: res.description!
-    }
+  ngOnInit() {
+    // Retrieve the initial ships when the component is being initialized
+    this._shipService.apiV1ShipsGet$Json()
+      .pipe(tap(() => this.loading = false))
+      .subscribe(this._allShips.set)
   }
 
-  private openDialog(mode: FormMode, title: string, ship: ShipDto | null) {
 
+  private openDialog(mode: FormMode, title: string, ship: ShipDto | null) {
     return this._dialog.open(ShipsDialogComponent, {
       height: "700x",
       width: "500px",
@@ -55,90 +60,88 @@ export class ShipsGridComponent  {
     })
   }
 
-
   openAddShip = () => {
     const dialogRef =
       this.openDialog(FormMode.Create, $localize`Créer un nouveau bateau`, null)
+
+    const startCreationRequest = (body: ShipMutationRequest | null) => {
+      if (body === null) {
+        return of(null);
+      }
+
+      return this._shipService.apiV1ShipsPost$Json({body})
+    }
+
     dialogRef.afterClosed()
       .pipe(
-        map(this.dtoToRequest),
-        switchMap(v => {
-          if (v === null) {
-            return of(null)
-          }
-          return this._shipService.apiV1ShipsPost$Json({body: v})
-        })
+        map(dtoToRequest),
+        switchMap(startCreationRequest)
       )
       .subscribe(r => {
-        if (r === null) {
-          return;
+        if (r !== null) {
+          this._allShips.update(ships => [r, ...ships]);
         }
-
-        this._allShips.update(ships => [r, ...ships]);
       })
 
   }
-
-  ngOnInit() {
-    this._shipService.apiV1ShipsGet$Json()
-      .pipe(tap(() => this.loading = false))
-      .subscribe( this._allShips.set)
-  }
-
-  consult = (ship: ShipDto) =>  {
-
-    const dialogRef = this.openDialog(FormMode.Readonly,
-      $localize`Consultation du bateau "${ship.name}"`,
-      ship
-      )
+  consult = (ship: ShipDto) => {
+     this.openDialog(FormMode.Readonly,
+                    $localize`Consultation du bateau "${ship.name}"`,
+                    ship)
   }
 
   edit = (ship: ShipDto) => {
-
     const dialogRef = this.openDialog(FormMode.Edit,
       $localize`Édition du bateau "${ship.name}"`,
       ship
     )
 
+    const startUpdateRequest = (body: ShipMutationRequest | null) => {
+      if (body === null) {
+        return of(null)
+      }
+      const putRequest: ApiV1ShipsIdPut$Json$Params = {
+        id: ship.id!,
+        body: body,
+      }
+      return this._shipService.apiV1ShipsIdPut$Json(putRequest)
+    }
+
     dialogRef.afterClosed()
       .pipe(
-        map(this.dtoToRequest),
-        switchMap((v: ShipMutationRequest | null) => {
-            if (v === null) {
-              return of(null)
-            }
-            const req: ApiV1ShipsIdPut$Json$Params = {
-              id: ship.id!,
-              body: v,
-            }
-            return this._shipService.apiV1ShipsIdPut$Json(req)
-          })
+        map(dtoToRequest),
+        switchMap(startUpdateRequest)
       )
-      .subscribe((res: ShipDto | null) => {
-        if (res === null) {
-          return;
-        }
-        console.log(res)
+      .subscribe({
+        next: (res: ShipDto | null) => {
+          if (res === null) {
+            return;
+          }
+          this._allShips.update(ships => ships.map(s => s.id === res.id ? res : s));
+        },
 
-
-        this._allShips.update(ships => ships.map(s => s.id === res.id ? res : s));
+        error: this.handleShipMutationError
       })
-
-
   }
 
   delete = (ship: ShipDto) => {
-    const hasConfirmed = confirm($localize`Voulez-vous réellement supprimer le bateau suivant :
-    ${ship.name} ?`)
+    const hasConfirmed = confirm($localize`Voulez-vous réellement supprimer le bateau suivant : ${ship.name} ?`)
     if (!hasConfirmed) {
       return;
     }
 
-    this._shipService.apiV1ShipsIdDelete({
-      id: ship.id!
-    })
-      .subscribe(() => {
-        this._allShips.update(ships => ships.filter(s => s.id !== ship.id));
-      })
+    this._shipService
+      .apiV1ShipsIdDelete({id: ship.id!})
+      .subscribe(() =>
+        this._allShips.update(ships =>
+          ships.filter(s => s.id !== ship.id)))
+  }
+
+  private handleShipMutationError = (err: HttpErrorResponse) => {
+      let errMessage = $localize`Une erreur inconnue est survenue.`;
+      if (err.status === HttpStatusCode.Conflict) {
+        errMessage = $localize`Un bateau portant ce nom existe déjà.`
+      }
+      this._snackbar.error(errMessage)
   }
 }

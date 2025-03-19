@@ -10,6 +10,6 @@ internal class NameNormalizer : INameNormalizer
 {
     public string Normalize(string name)
     {
-        return name.ToLowerInvariant();
+        return name.Trim().ToLowerInvariant();
     }
 }
