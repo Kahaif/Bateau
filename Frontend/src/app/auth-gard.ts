@@ -1,13 +1,13 @@
 import {Router} from '@angular/router';
 import {inject} from '@angular/core';
-import {UserService} from './services/user-service/user.service';
-import {CustomSnackbar} from './app/snackbar/custom-snackbar.service';
+import {UserService} from '../services/user-service/user.service';
+import {CustomSnackbar} from './snackbar/custom-snackbar.service';
 
 /**
  * Guard which prevent the user from going in some pages when he's logged out.
  * Redirects him to the sign in page if he's not logged in.
  */
-export async function AuthGuard() {
+export async function ShipsGuard() {
   const auth = inject(UserService);
   const router = inject(Router);
   const snackbar = inject(CustomSnackbar)
@@ -28,7 +28,6 @@ export async function AuthGuard() {
         })
   }
 
-  snackbar.error($localize`Vous devez être connecté pour accéder à cette page.`)
   router.navigateByUrl("/sign-in");
   return false;
 }

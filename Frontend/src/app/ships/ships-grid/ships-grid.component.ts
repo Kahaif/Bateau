@@ -77,10 +77,14 @@ export class ShipsGridComponent  {
         map(dtoToRequest),
         switchMap(startCreationRequest)
       )
-      .subscribe(r => {
-        if (r !== null) {
-          this._allShips.update(ships => [r, ...ships]);
-        }
+      .subscribe({
+        next: r => {
+          if (r !== null) {
+            this._allShips.update(ships => [r, ...ships]);
+          }
+        },
+
+        error: this.handleShipMutationError
       })
 
   }

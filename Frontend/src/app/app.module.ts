@@ -27,8 +27,9 @@ import {RouterLink, RouterModule} from '@angular/router';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {ShipsDialogComponent} from './ships/ships-grid/ships-dialog/ships-dialog.component';
 import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
-import {baseUrlSetter} from '../interceptors/api-interceptor.interceptor';
+import {baseUrlSetter, unauthorizedCatcher} from '../interceptors/api-interceptor.interceptor';
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
+import {NotFoundComponent} from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/mat
     SignUpComponent,
     SignInComponent,
     ShipsDialogComponent,
-    ShipsGridComponent
+    ShipsGridComponent,
+    NotFoundComponent
   ],
   imports: [
     RouterModule,
@@ -83,7 +85,7 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/mat
   providers: [
     provideAnimationsAsync(),
 
-    provideHttpClient(withInterceptors([baseUrlSetter]))
+    provideHttpClient(withInterceptors([baseUrlSetter, unauthorizedCatcher]))
   ],
 
   bootstrap: [AppComponent]
