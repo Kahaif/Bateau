@@ -33,7 +33,6 @@ builder.Services.AddDbContext<BateauDbContext>(
     
 
 // Identity configuration
-
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
     {
         opt.Lockout.MaxFailedAccessAttempts = 20;
@@ -47,19 +46,11 @@ var app = builder.Build();
 
 app.UseCors((policyBuilder) =>
 {
-    // enable CORS with all sources only in dev
-    if (app.Environment.IsDevelopment())
-    {
-        policyBuilder.AllowAnyHeader()
-            .AllowAnyOrigin()
-            .AllowAnyMethod();
-    }
-    else
-    {
-        policyBuilder
-            .WithOrigins(app.Configuration.GetValue<string[]>("Origins") ??
-                         throw new Exception("Missing cors policy in settings"));
-    }
+    // Allow everything from everywhere.
+    // Obviously not suitable for production, but good enough here
+    policyBuilder.AllowAnyHeader()
+        .AllowAnyOrigin()
+        .AllowAnyMethod();
 });
 
 
@@ -70,13 +61,10 @@ app
     .MapIdentityApi<User>()
     .WithTags("Identity");
 
-
 app.UseAuthentication();
 app.UseRouting();
 app.UseAuthorization();
 app.MapControllers();
-
-
 
 if (app.Environment.IsDevelopment())
 {
@@ -85,9 +73,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
-
 app.UseHttpsRedirection();
-
 
 app.MapPost("/validatePassword", PasswordValidator.PreviewPasswordValidation)
 .WithName("Validate password")

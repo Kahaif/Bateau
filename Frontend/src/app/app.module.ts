@@ -12,7 +12,6 @@ import { MatListModule } from '@angular/material/list';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ShipsGridComponent } from './ships/ships-grid/ships-grid.component';
-import { ShipsDetailsComponent } from './ships/ships-details/ships-details.component';
 import {MatError, MatFormField, MatFormFieldModule} from '@angular/material/form-field';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -35,7 +34,6 @@ import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/mat
   declarations: [
     AppComponent,
     ShipsGridComponent,
-    ShipsDetailsComponent,
     SignUpComponent,
     SignInComponent,
     ShipsDialogComponent,
