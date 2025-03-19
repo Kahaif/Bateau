@@ -15,10 +15,8 @@ import { apiV1ShipsGet$Json } from '../fn/ships/api-v-1-ships-get-json';
 import { ApiV1ShipsGet$Json$Params } from '../fn/ships/api-v-1-ships-get-json';
 import { apiV1ShipsGet$Plain } from '../fn/ships/api-v-1-ships-get-plain';
 import { ApiV1ShipsGet$Plain$Params } from '../fn/ships/api-v-1-ships-get-plain';
-import { apiV1ShipsIdDelete$Json } from '../fn/ships/api-v-1-ships-id-delete-json';
-import { ApiV1ShipsIdDelete$Json$Params } from '../fn/ships/api-v-1-ships-id-delete-json';
-import { apiV1ShipsIdDelete$Plain } from '../fn/ships/api-v-1-ships-id-delete-plain';
-import { ApiV1ShipsIdDelete$Plain$Params } from '../fn/ships/api-v-1-ships-id-delete-plain';
+import { apiV1ShipsIdDelete } from '../fn/ships/api-v-1-ships-id-delete';
+import { ApiV1ShipsIdDelete$Params } from '../fn/ships/api-v-1-ships-id-delete';
 import { apiV1ShipsIdPut$Json } from '../fn/ships/api-v-1-ships-id-put-json';
 import { ApiV1ShipsIdPut$Json$Params } from '../fn/ships/api-v-1-ships-id-put-json';
 import { apiV1ShipsIdPut$Plain } from '../fn/ships/api-v-1-ships-id-put-plain';
@@ -89,9 +87,9 @@ export class ShipsService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiV1ShipsPost$Plain()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsPost$Plain$Response(params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+  apiV1ShipsPost$Plain$Response(params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<ShipDto>> {
     return apiV1ShipsPost$Plain(this.http, this.rootUrl, params, context);
   }
 
@@ -99,11 +97,11 @@ export class ShipsService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiV1ShipsPost$Plain$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsPost$Plain(params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<Array<ShipDto>> {
+  apiV1ShipsPost$Plain(params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<ShipDto> {
     return this.apiV1ShipsPost$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
+      map((r: StrictHttpResponse<ShipDto>): ShipDto => r.body)
     );
   }
 
@@ -111,9 +109,9 @@ export class ShipsService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiV1ShipsPost$Json()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsPost$Json$Response(params?: ApiV1ShipsPost$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+  apiV1ShipsPost$Json$Response(params?: ApiV1ShipsPost$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<ShipDto>> {
     return apiV1ShipsPost$Json(this.http, this.rootUrl, params, context);
   }
 
@@ -121,11 +119,11 @@ export class ShipsService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiV1ShipsPost$Json$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsPost$Json(params?: ApiV1ShipsPost$Json$Params, context?: HttpContext): Observable<Array<ShipDto>> {
+  apiV1ShipsPost$Json(params?: ApiV1ShipsPost$Json$Params, context?: HttpContext): Observable<ShipDto> {
     return this.apiV1ShipsPost$Json$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
+      map((r: StrictHttpResponse<ShipDto>): ShipDto => r.body)
     );
   }
 
@@ -136,9 +134,9 @@ export class ShipsService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiV1ShipsIdPut$Plain()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsIdPut$Plain$Response(params: ApiV1ShipsIdPut$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+  apiV1ShipsIdPut$Plain$Response(params: ApiV1ShipsIdPut$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<ShipDto>> {
     return apiV1ShipsIdPut$Plain(this.http, this.rootUrl, params, context);
   }
 
@@ -146,11 +144,11 @@ export class ShipsService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiV1ShipsIdPut$Plain$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsIdPut$Plain(params: ApiV1ShipsIdPut$Plain$Params, context?: HttpContext): Observable<Array<ShipDto>> {
+  apiV1ShipsIdPut$Plain(params: ApiV1ShipsIdPut$Plain$Params, context?: HttpContext): Observable<ShipDto> {
     return this.apiV1ShipsIdPut$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
+      map((r: StrictHttpResponse<ShipDto>): ShipDto => r.body)
     );
   }
 
@@ -158,9 +156,9 @@ export class ShipsService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `apiV1ShipsIdPut$Json()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsIdPut$Json$Response(params: ApiV1ShipsIdPut$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+  apiV1ShipsIdPut$Json$Response(params: ApiV1ShipsIdPut$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<ShipDto>> {
     return apiV1ShipsIdPut$Json(this.http, this.rootUrl, params, context);
   }
 
@@ -168,11 +166,11 @@ export class ShipsService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `apiV1ShipsIdPut$Json$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/*+json` and handles request body of type `application/*+json`.
    */
-  apiV1ShipsIdPut$Json(params: ApiV1ShipsIdPut$Json$Params, context?: HttpContext): Observable<Array<ShipDto>> {
+  apiV1ShipsIdPut$Json(params: ApiV1ShipsIdPut$Json$Params, context?: HttpContext): Observable<ShipDto> {
     return this.apiV1ShipsIdPut$Json$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
+      map((r: StrictHttpResponse<ShipDto>): ShipDto => r.body)
     );
   }
 
@@ -181,45 +179,23 @@ export class ShipsService extends BaseService {
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiV1ShipsIdDelete$Plain()` instead.
+   * To access only the response body, use `apiV1ShipsIdDelete()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiV1ShipsIdDelete$Plain$Response(params: ApiV1ShipsIdDelete$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
-    return apiV1ShipsIdDelete$Plain(this.http, this.rootUrl, params, context);
+  apiV1ShipsIdDelete$Response(params: ApiV1ShipsIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return apiV1ShipsIdDelete(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiV1ShipsIdDelete$Plain$Response()` instead.
+   * To access the full response (for headers, for example), `apiV1ShipsIdDelete$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiV1ShipsIdDelete$Plain(params: ApiV1ShipsIdDelete$Plain$Params, context?: HttpContext): Observable<Array<ShipDto>> {
-    return this.apiV1ShipsIdDelete$Plain$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
-    );
-  }
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiV1ShipsIdDelete$Json()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiV1ShipsIdDelete$Json$Response(params: ApiV1ShipsIdDelete$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
-    return apiV1ShipsIdDelete$Json(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiV1ShipsIdDelete$Json$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  apiV1ShipsIdDelete$Json(params: ApiV1ShipsIdDelete$Json$Params, context?: HttpContext): Observable<Array<ShipDto>> {
-    return this.apiV1ShipsIdDelete$Json$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ShipDto>>): Array<ShipDto> => r.body)
+  apiV1ShipsIdDelete(params: ApiV1ShipsIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.apiV1ShipsIdDelete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

@@ -8,17 +8,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { InfoRequest } from '../../models/info-request';
 import { InfoResponse } from '../../models/info-response';
 
-export interface ApiManageInfoPost$Params {
-      body?: InfoRequest
+export interface ManageInfoGet$Params {
 }
 
-export function apiManageInfoPost(http: HttpClient, rootUrl: string, params?: ApiManageInfoPost$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
-  const rb = new RequestBuilder(rootUrl, apiManageInfoPost.PATH, 'post');
+export function manageInfoGet(http: HttpClient, rootUrl: string, params?: ManageInfoGet$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
+  const rb = new RequestBuilder(rootUrl, manageInfoGet.PATH, 'get');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -31,4 +28,4 @@ export function apiManageInfoPost(http: HttpClient, rootUrl: string, params?: Ap
   );
 }
 
-apiManageInfoPost.PATH = '/api/manage/info';
+manageInfoGet.PATH = '/manage/info';

@@ -8,14 +8,17 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { InfoResponse } from '../../models/info-response';
+import { AccessTokenResponse } from '../../models/access-token-response';
+import { RefreshRequest } from '../../models/refresh-request';
 
-export interface ApiManageInfoGet$Params {
+export interface RefreshPost$Params {
+      body?: RefreshRequest
 }
 
-export function apiManageInfoGet(http: HttpClient, rootUrl: string, params?: ApiManageInfoGet$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
-  const rb = new RequestBuilder(rootUrl, apiManageInfoGet.PATH, 'get');
+export function refreshPost(http: HttpClient, rootUrl: string, params?: RefreshPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
+  const rb = new RequestBuilder(rootUrl, refreshPost.PATH, 'post');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -23,9 +26,9 @@ export function apiManageInfoGet(http: HttpClient, rootUrl: string, params?: Api
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<InfoResponse>;
+      return r as StrictHttpResponse<AccessTokenResponse>;
     })
   );
 }
 
-apiManageInfoGet.PATH = '/api/manage/info';
+refreshPost.PATH = '/refresh';

@@ -6,13 +6,13 @@ var dbUsername = builder.AddParameter("dbUsername", "postgres");
 
 var db = builder.AddPostgres("Postgres", dbPassword, dbUsername, 5432)
     .WithDataBindMount("./data", isReadOnly: false)
-    .WithPgWeb()
     .PublishAsContainer()
     .AddDatabase("pgdb", "bateau");
 
 
 var backend = builder.AddProject<Projects.Backend>("backend")
     .PublishAsDockerFile()
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", "Development")
     .WithReference(db)
     .WaitFor(db);
 

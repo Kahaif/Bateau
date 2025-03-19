@@ -8,26 +8,25 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ShipDto } from '../../models/ship-dto';
 
-export interface ApiV1ShipsIdDelete$Json$Params {
+export interface ApiV1ShipsIdDelete$Params {
   id: number;
 }
 
-export function apiV1ShipsIdDelete$Json(http: HttpClient, rootUrl: string, params: ApiV1ShipsIdDelete$Json$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
-  const rb = new RequestBuilder(rootUrl, apiV1ShipsIdDelete$Json.PATH, 'delete');
+export function apiV1ShipsIdDelete(http: HttpClient, rootUrl: string, params: ApiV1ShipsIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, apiV1ShipsIdDelete.PATH, 'delete');
   if (params) {
     rb.path('id', params.id, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'text/json', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ShipDto>>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-apiV1ShipsIdDelete$Json.PATH = '/api/v1/Ships/{id}';
+apiV1ShipsIdDelete.PATH = '/api/v1/Ships/{id}';

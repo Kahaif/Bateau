@@ -1,0 +1,47 @@
+<mat-dialog-content class="dialog" ngForm [formGroup]="form">
+  <h2 mat-dialog-title>{{data?.title}}</h2>
+
+  <div class="row">
+    <div class="col">
+      <mat-form-field>
+        <input
+          matInput
+          i18n-placeholder
+          placeholder="Nom"
+          required
+          [formControl]="form.controls.name"
+        />
+        <mat-error *ngIf="form.controls.name.hasError('required')" i18n>
+          Ce champ est nécessaire.
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <textarea
+            matInput
+            i18n-placeholder
+            placeholder="Description"
+            [formControl]="form.controls.description"
+          >
+          </textarea>
+
+          <mat-error *ngIf="form.controls.description.hasError('required')" i18n>
+            Ce champ est nécessaire.
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+  <mat-card-actions>
+      <button idf-action mat-button (click)="onNoClick()" i18n>Annuler</button>
+      <button [disabled]="form.invalid" [mat-dialog-close]="form.value"  mat-flat-button  i18n color="primary" type="submit">
+        Ok
+      </button>
+  </mat-card-actions>
+
+</mat-dialog-content>
+

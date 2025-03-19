@@ -9,15 +9,16 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { ShipDto } from '../../models/ship-dto';
+import { ShipMutationRequest } from '../../models/ship-mutation-request';
 
 export interface ApiV1ShipsPost$Plain$Params {
-  id?: number;
+      body?: ShipMutationRequest
 }
 
-export function apiV1ShipsPost$Plain(http: HttpClient, rootUrl: string, params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ShipDto>>> {
+export function apiV1ShipsPost$Plain(http: HttpClient, rootUrl: string, params?: ApiV1ShipsPost$Plain$Params, context?: HttpContext): Observable<StrictHttpResponse<ShipDto>> {
   const rb = new RequestBuilder(rootUrl, apiV1ShipsPost$Plain.PATH, 'post');
   if (params) {
-    rb.query('id', params.id, {});
+    rb.body(params.body, 'application/*+json');
   }
 
   return http.request(
@@ -25,7 +26,7 @@ export function apiV1ShipsPost$Plain(http: HttpClient, rootUrl: string, params?:
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<ShipDto>>;
+      return r as StrictHttpResponse<ShipDto>;
     })
   );
 }

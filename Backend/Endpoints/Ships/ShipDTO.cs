@@ -1,8 +1,20 @@
-﻿namespace Backend.Endpoints.Ships;
+﻿using System.Net;
+using System.Reflection.Metadata.Ecma335;
+using Backend.Persistence.Models;
 
-public class ShipDTO
+namespace Backend.Endpoints.Ships;
+
+public class ShipDTO(Ship ship)
 {
-    public required string Name { get; init; }
-    public required string Description { get; init; }
-    public required long Id { get; init; }
+    public string Name { get;  } =  WebUtility.HtmlEncode(ship.Name);
+    public string Description { get;  } = WebUtility.HtmlEncode(ship.Description);
+    public long Id { get;  } = ship.Id;
+}
+
+public static class ModelExtensions 
+{
+    public static ShipDTO ToDTO(this Ship ship)
+    {
+        return new ShipDTO(ship);
+    }
 }

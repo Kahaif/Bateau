@@ -1,1 +1,42 @@
-<p>ships-grid works!</p>
+<mat-progress-spinner *ngIf="loading" [diameter]="32"></mat-progress-spinner>
+
+<div class="grid"  *ngIf="!loading"  >
+    @if (allShips().length === 0) {
+      <h1 i18n class="row">
+        Vous n'avez pas renseigné de bateaux.
+      </h1>
+    }
+
+    <button class="row" mat-button (click)="openAddShip()" mat-flat-button i18n>
+      Créer un bateau
+    </button>
+
+    @if (allShips().length > 0) {
+
+      <mat-grid-list cols="3" rowHeight="3:2">
+        <mat-grid-tile *ngFor="let ship of allShips()" [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ship}" class="content"  >
+              {{ship.name}}
+        </mat-grid-tile>
+      </mat-grid-list>
+    }
+
+</div>
+
+<!-- Contextual menu -->
+<mat-menu #menu="matMenu" overlapTrigger="true" yPosition="below" xPosition="after" >
+  <ng-template matMenuContent let-ship="ship">
+    <button (click)="consult(ship)" mat-menu-item>
+      <mat-icon>photo icon</mat-icon>
+      <span i18n>Consulter</span>
+    </button>
+    <button (click)="edit(ship)" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      <span i18n>Éditer</span>
+    </button>
+    <button (click)="delete(ship)" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      <span i18n>Supprimer</span>
+    </button>
+  </ng-template>
+</mat-menu>
+

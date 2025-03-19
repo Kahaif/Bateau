@@ -35,9 +35,7 @@ export class FormComponent  {
   })
   form!: FormGroup;
 
-  ngOnInit() {
-    console.log(this.fields())
-  }
+
   @Input()
   submit!: () =>  Subscription;
 

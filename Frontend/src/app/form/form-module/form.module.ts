@@ -14,6 +14,7 @@ import {
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
+import {AppRoutingModule} from '../../app-routing.module';
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import {MatButton} from '@angular/material/button';
   imports: [
     CommonModule,
     MatCardContent,
+    AppRoutingModule,
     MatCardActions,
     MatCardModule,
     MatProgressSpinner,

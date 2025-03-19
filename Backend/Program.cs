@@ -1,11 +1,12 @@
 using Backend.Endpoints.Identity;
 using Backend.Persistence;
 using Backend.Persistence.Models;
+using Backend.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSingleton<INameNormalizer, NameNormalizer>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddCors();
@@ -16,7 +17,7 @@ builder.Services.AddSwaggerGen(o =>
 {
     o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
+        Description = "Authorization header using the Bearer scheme (Example: 'Bearer 12345abcdef')",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -30,6 +31,7 @@ builder.Services.AddDbContext<BateauDbContext>(
     
 
 // Identity configuration
+
 builder.Services.AddIdentityApiEndpoints<User>(opt =>
     {
         opt.Lockout.MaxFailedAccessAttempts = 20;
@@ -40,29 +42,6 @@ builder.Services.AddIdentityApiEndpoints<User>(opt =>
 
 // ==========================================================
 var app = builder.Build();
-
-
-// Map identity presets endpoints
-// This maps common endpoints, such as sign up, sign in and token refreshing endpoints.
-// cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
-app
-    .MapGroup("/api")
-    .MapIdentityApi<User>()
-    .WithTags("Identity");
-
-
-app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
-app.MapControllers();
-
-
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseCors((policyBuilder) =>
 {
@@ -82,6 +61,29 @@ app.UseCors((policyBuilder) =>
 });
 
 
+// Map identity presets endpoints
+// This maps common endpoints, such as sign up, sign in and token refreshing endpoints.
+// cf. https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-api-authorization?view=aspnetcore-9.0
+app
+    .MapIdentityApi<User>()
+    .WithTags("Identity");
+
+
+app.UseAuthentication();
+app.UseRouting();
+app.UseAuthorization();
+app.MapControllers();
+
+
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+
+
 app.UseHttpsRedirection();
 
 
@@ -96,6 +98,7 @@ if (app.Environment.IsDevelopment())
 {
     using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
     var ctx = serviceScope.ServiceProvider.GetRequiredService<BateauDbContext>();
+    await ctx.Database.EnsureDeletedAsync();
     await ctx.Database.EnsureCreatedAsync();
 }
 

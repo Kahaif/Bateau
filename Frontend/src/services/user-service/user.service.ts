@@ -97,7 +97,6 @@ export class UserService {
     }
     this._session.set(storedSession)
     this.startRefreshTimeout(storedSession.absoluteExpirationTicks -  Date.now())
-    console.log(storedSession.absoluteExpirationTicks -  Date.now())
   }
 
   /**

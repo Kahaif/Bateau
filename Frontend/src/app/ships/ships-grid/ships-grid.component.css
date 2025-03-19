@@ -1,0 +1,20 @@
+.grid {
+  button {
+    margin: 16px;
+    background-color: blue;
+    color: white;
+  }
+
+}
+
+
+
+
+.content {
+  font-size: 1.8em;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  &:hover {
+    cursor: pointer;
+
+  }
+}

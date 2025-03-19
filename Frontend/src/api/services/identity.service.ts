@@ -12,27 +12,27 @@ import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
 import { AccessTokenResponse } from '../models/access-token-response';
-import { apiForgotPasswordPost } from '../fn/identity/api-forgot-password-post';
-import { ApiForgotPasswordPost$Params } from '../fn/identity/api-forgot-password-post';
-import { apiLoginPost } from '../fn/identity/api-login-post';
-import { ApiLoginPost$Params } from '../fn/identity/api-login-post';
-import { apiManage2FaPost } from '../fn/identity/api-manage-2-fa-post';
-import { ApiManage2FaPost$Params } from '../fn/identity/api-manage-2-fa-post';
-import { apiManageInfoGet } from '../fn/identity/api-manage-info-get';
-import { ApiManageInfoGet$Params } from '../fn/identity/api-manage-info-get';
-import { apiManageInfoPost } from '../fn/identity/api-manage-info-post';
-import { ApiManageInfoPost$Params } from '../fn/identity/api-manage-info-post';
-import { apiRefreshPost } from '../fn/identity/api-refresh-post';
-import { ApiRefreshPost$Params } from '../fn/identity/api-refresh-post';
-import { apiRegisterPost } from '../fn/identity/api-register-post';
-import { ApiRegisterPost$Params } from '../fn/identity/api-register-post';
-import { apiResendConfirmationEmailPost } from '../fn/identity/api-resend-confirmation-email-post';
-import { ApiResendConfirmationEmailPost$Params } from '../fn/identity/api-resend-confirmation-email-post';
-import { apiResetPasswordPost } from '../fn/identity/api-reset-password-post';
-import { ApiResetPasswordPost$Params } from '../fn/identity/api-reset-password-post';
+import { forgotPasswordPost } from '../fn/identity/forgot-password-post';
+import { ForgotPasswordPost$Params } from '../fn/identity/forgot-password-post';
 import { InfoResponse } from '../models/info-response';
-import { mapIdentityApiApiConfirmEmail } from '../fn/identity/map-identity-api-api-confirm-email';
-import { MapIdentityApiApiConfirmEmail$Params } from '../fn/identity/map-identity-api-api-confirm-email';
+import { loginPost } from '../fn/identity/login-post';
+import { LoginPost$Params } from '../fn/identity/login-post';
+import { manage2FaPost } from '../fn/identity/manage-2-fa-post';
+import { Manage2FaPost$Params } from '../fn/identity/manage-2-fa-post';
+import { manageInfoGet } from '../fn/identity/manage-info-get';
+import { ManageInfoGet$Params } from '../fn/identity/manage-info-get';
+import { manageInfoPost } from '../fn/identity/manage-info-post';
+import { ManageInfoPost$Params } from '../fn/identity/manage-info-post';
+import { mapIdentityApiConfirmEmail } from '../fn/identity/map-identity-api-confirm-email';
+import { MapIdentityApiConfirmEmail$Params } from '../fn/identity/map-identity-api-confirm-email';
+import { refreshPost } from '../fn/identity/refresh-post';
+import { RefreshPost$Params } from '../fn/identity/refresh-post';
+import { registerPost } from '../fn/identity/register-post';
+import { RegisterPost$Params } from '../fn/identity/register-post';
+import { resendConfirmationEmailPost } from '../fn/identity/resend-confirmation-email-post';
+import { ResendConfirmationEmailPost$Params } from '../fn/identity/resend-confirmation-email-post';
+import { resetPasswordPost } from '../fn/identity/reset-password-post';
+import { ResetPasswordPost$Params } from '../fn/identity/reset-password-post';
 import { TwoFactorResponse } from '../models/two-factor-response';
 
 @Injectable({ providedIn: 'root' })
@@ -41,252 +41,252 @@ export class IdentityService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `apiRegisterPost()` */
-  static readonly ApiRegisterPostPath = '/api/register';
+  /** Path part for operation `registerPost()` */
+  static readonly RegisterPostPath = '/register';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiRegisterPost()` instead.
+   * To access only the response body, use `registerPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiRegisterPost$Response(params?: ApiRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return apiRegisterPost(this.http, this.rootUrl, params, context);
+  registerPost$Response(params?: RegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return registerPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiRegisterPost$Response()` instead.
+   * To access the full response (for headers, for example), `registerPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiRegisterPost(params?: ApiRegisterPost$Params, context?: HttpContext): Observable<void> {
-    return this.apiRegisterPost$Response(params, context).pipe(
+  registerPost(params?: RegisterPost$Params, context?: HttpContext): Observable<void> {
+    return this.registerPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `apiLoginPost()` */
-  static readonly ApiLoginPostPath = '/api/login';
+  /** Path part for operation `loginPost()` */
+  static readonly LoginPostPath = '/login';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiLoginPost()` instead.
+   * To access only the response body, use `loginPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiLoginPost$Response(params?: ApiLoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
-    return apiLoginPost(this.http, this.rootUrl, params, context);
+  loginPost$Response(params?: LoginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
+    return loginPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiLoginPost$Response()` instead.
+   * To access the full response (for headers, for example), `loginPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiLoginPost(params?: ApiLoginPost$Params, context?: HttpContext): Observable<AccessTokenResponse> {
-    return this.apiLoginPost$Response(params, context).pipe(
+  loginPost(params?: LoginPost$Params, context?: HttpContext): Observable<AccessTokenResponse> {
+    return this.loginPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<AccessTokenResponse>): AccessTokenResponse => r.body)
     );
   }
 
-  /** Path part for operation `apiRefreshPost()` */
-  static readonly ApiRefreshPostPath = '/api/refresh';
+  /** Path part for operation `refreshPost()` */
+  static readonly RefreshPostPath = '/refresh';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiRefreshPost()` instead.
+   * To access only the response body, use `refreshPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiRefreshPost$Response(params?: ApiRefreshPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
-    return apiRefreshPost(this.http, this.rootUrl, params, context);
+  refreshPost$Response(params?: RefreshPost$Params, context?: HttpContext): Observable<StrictHttpResponse<AccessTokenResponse>> {
+    return refreshPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiRefreshPost$Response()` instead.
+   * To access the full response (for headers, for example), `refreshPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiRefreshPost(params?: ApiRefreshPost$Params, context?: HttpContext): Observable<AccessTokenResponse> {
-    return this.apiRefreshPost$Response(params, context).pipe(
+  refreshPost(params?: RefreshPost$Params, context?: HttpContext): Observable<AccessTokenResponse> {
+    return this.refreshPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<AccessTokenResponse>): AccessTokenResponse => r.body)
     );
   }
 
-  /** Path part for operation `mapIdentityApiApiConfirmEmail()` */
-  static readonly MapIdentityApiApiConfirmEmailPath = '/api/confirmEmail';
+  /** Path part for operation `mapIdentityApiConfirmEmail()` */
+  static readonly MapIdentityApiConfirmEmailPath = '/confirmEmail';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `mapIdentityApiApiConfirmEmail()` instead.
+   * To access only the response body, use `mapIdentityApiConfirmEmail()` instead.
    *
    * This method doesn't expect any request body.
    */
-  mapIdentityApiApiConfirmEmail$Response(params?: MapIdentityApiApiConfirmEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return mapIdentityApiApiConfirmEmail(this.http, this.rootUrl, params, context);
+  mapIdentityApiConfirmEmail$Response(params?: MapIdentityApiConfirmEmail$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return mapIdentityApiConfirmEmail(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `mapIdentityApiApiConfirmEmail$Response()` instead.
+   * To access the full response (for headers, for example), `mapIdentityApiConfirmEmail$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  mapIdentityApiApiConfirmEmail(params?: MapIdentityApiApiConfirmEmail$Params, context?: HttpContext): Observable<void> {
-    return this.mapIdentityApiApiConfirmEmail$Response(params, context).pipe(
+  mapIdentityApiConfirmEmail(params?: MapIdentityApiConfirmEmail$Params, context?: HttpContext): Observable<void> {
+    return this.mapIdentityApiConfirmEmail$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `apiResendConfirmationEmailPost()` */
-  static readonly ApiResendConfirmationEmailPostPath = '/api/resendConfirmationEmail';
+  /** Path part for operation `resendConfirmationEmailPost()` */
+  static readonly ResendConfirmationEmailPostPath = '/resendConfirmationEmail';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiResendConfirmationEmailPost()` instead.
+   * To access only the response body, use `resendConfirmationEmailPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiResendConfirmationEmailPost$Response(params?: ApiResendConfirmationEmailPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return apiResendConfirmationEmailPost(this.http, this.rootUrl, params, context);
+  resendConfirmationEmailPost$Response(params?: ResendConfirmationEmailPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return resendConfirmationEmailPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiResendConfirmationEmailPost$Response()` instead.
+   * To access the full response (for headers, for example), `resendConfirmationEmailPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiResendConfirmationEmailPost(params?: ApiResendConfirmationEmailPost$Params, context?: HttpContext): Observable<void> {
-    return this.apiResendConfirmationEmailPost$Response(params, context).pipe(
+  resendConfirmationEmailPost(params?: ResendConfirmationEmailPost$Params, context?: HttpContext): Observable<void> {
+    return this.resendConfirmationEmailPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `apiForgotPasswordPost()` */
-  static readonly ApiForgotPasswordPostPath = '/api/forgotPassword';
+  /** Path part for operation `forgotPasswordPost()` */
+  static readonly ForgotPasswordPostPath = '/forgotPassword';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiForgotPasswordPost()` instead.
+   * To access only the response body, use `forgotPasswordPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiForgotPasswordPost$Response(params?: ApiForgotPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return apiForgotPasswordPost(this.http, this.rootUrl, params, context);
+  forgotPasswordPost$Response(params?: ForgotPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return forgotPasswordPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiForgotPasswordPost$Response()` instead.
+   * To access the full response (for headers, for example), `forgotPasswordPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiForgotPasswordPost(params?: ApiForgotPasswordPost$Params, context?: HttpContext): Observable<void> {
-    return this.apiForgotPasswordPost$Response(params, context).pipe(
+  forgotPasswordPost(params?: ForgotPasswordPost$Params, context?: HttpContext): Observable<void> {
+    return this.forgotPasswordPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `apiResetPasswordPost()` */
-  static readonly ApiResetPasswordPostPath = '/api/resetPassword';
+  /** Path part for operation `resetPasswordPost()` */
+  static readonly ResetPasswordPostPath = '/resetPassword';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiResetPasswordPost()` instead.
+   * To access only the response body, use `resetPasswordPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiResetPasswordPost$Response(params?: ApiResetPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return apiResetPasswordPost(this.http, this.rootUrl, params, context);
+  resetPasswordPost$Response(params?: ResetPasswordPost$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return resetPasswordPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiResetPasswordPost$Response()` instead.
+   * To access the full response (for headers, for example), `resetPasswordPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiResetPasswordPost(params?: ApiResetPasswordPost$Params, context?: HttpContext): Observable<void> {
-    return this.apiResetPasswordPost$Response(params, context).pipe(
+  resetPasswordPost(params?: ResetPasswordPost$Params, context?: HttpContext): Observable<void> {
+    return this.resetPasswordPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
-  /** Path part for operation `apiManage2FaPost()` */
-  static readonly ApiManage2FaPostPath = '/api/manage/2fa';
+  /** Path part for operation `manage2FaPost()` */
+  static readonly Manage2FaPostPath = '/manage/2fa';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiManage2FaPost()` instead.
+   * To access only the response body, use `manage2FaPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiManage2FaPost$Response(params?: ApiManage2FaPost$Params, context?: HttpContext): Observable<StrictHttpResponse<TwoFactorResponse>> {
-    return apiManage2FaPost(this.http, this.rootUrl, params, context);
+  manage2FaPost$Response(params?: Manage2FaPost$Params, context?: HttpContext): Observable<StrictHttpResponse<TwoFactorResponse>> {
+    return manage2FaPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiManage2FaPost$Response()` instead.
+   * To access the full response (for headers, for example), `manage2FaPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiManage2FaPost(params?: ApiManage2FaPost$Params, context?: HttpContext): Observable<TwoFactorResponse> {
-    return this.apiManage2FaPost$Response(params, context).pipe(
+  manage2FaPost(params?: Manage2FaPost$Params, context?: HttpContext): Observable<TwoFactorResponse> {
+    return this.manage2FaPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<TwoFactorResponse>): TwoFactorResponse => r.body)
     );
   }
 
-  /** Path part for operation `apiManageInfoGet()` */
-  static readonly ApiManageInfoGetPath = '/api/manage/info';
+  /** Path part for operation `manageInfoGet()` */
+  static readonly ManageInfoGetPath = '/manage/info';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiManageInfoGet()` instead.
+   * To access only the response body, use `manageInfoGet()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiManageInfoGet$Response(params?: ApiManageInfoGet$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
-    return apiManageInfoGet(this.http, this.rootUrl, params, context);
+  manageInfoGet$Response(params?: ManageInfoGet$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
+    return manageInfoGet(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiManageInfoGet$Response()` instead.
+   * To access the full response (for headers, for example), `manageInfoGet$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  apiManageInfoGet(params?: ApiManageInfoGet$Params, context?: HttpContext): Observable<InfoResponse> {
-    return this.apiManageInfoGet$Response(params, context).pipe(
+  manageInfoGet(params?: ManageInfoGet$Params, context?: HttpContext): Observable<InfoResponse> {
+    return this.manageInfoGet$Response(params, context).pipe(
       map((r: StrictHttpResponse<InfoResponse>): InfoResponse => r.body)
     );
   }
 
-  /** Path part for operation `apiManageInfoPost()` */
-  static readonly ApiManageInfoPostPath = '/api/manage/info';
+  /** Path part for operation `manageInfoPost()` */
+  static readonly ManageInfoPostPath = '/manage/info';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `apiManageInfoPost()` instead.
+   * To access only the response body, use `manageInfoPost()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiManageInfoPost$Response(params?: ApiManageInfoPost$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
-    return apiManageInfoPost(this.http, this.rootUrl, params, context);
+  manageInfoPost$Response(params?: ManageInfoPost$Params, context?: HttpContext): Observable<StrictHttpResponse<InfoResponse>> {
+    return manageInfoPost(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `apiManageInfoPost$Response()` instead.
+   * To access the full response (for headers, for example), `manageInfoPost$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  apiManageInfoPost(params?: ApiManageInfoPost$Params, context?: HttpContext): Observable<InfoResponse> {
-    return this.apiManageInfoPost$Response(params, context).pipe(
+  manageInfoPost(params?: ManageInfoPost$Params, context?: HttpContext): Observable<InfoResponse> {
+    return this.manageInfoPost$Response(params, context).pipe(
       map((r: StrictHttpResponse<InfoResponse>): InfoResponse => r.body)
     );
   }

@@ -12,32 +12,37 @@ import { MatListModule } from '@angular/material/list';
 import { SignUpComponent } from './sign-up/sign-up.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { ShipsGridComponent } from './ships/ships-grid/ships-grid.component';
-import { ShipsGridItemComponent } from './ships/ships-grid-item/ships-grid-item.component';
 import { ShipsDetailsComponent } from './ships/ships-details/ships-details.component';
 import {MatError, MatFormField, MatFormFieldModule} from '@angular/material/form-field';
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInput, MatInputModule} from '@angular/material/input';
 import {environment} from '../environments/environment';
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
-import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClient, withInterceptors, withInterceptorsFromDi} from '@angular/common/http';
 import {ApiModule} from '../api/api.module';
 import {MatProgressSpinner, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatChip, MatChipSet} from '@angular/material/chips';
 import {FormModule} from './form/form-module/form.module';
-import {NoopComponent} from './noop.component';
+import {RouterLink, RouterModule} from '@angular/router';
+import {MatGridList, MatGridTile} from '@angular/material/grid-list';
+import {ShipsDialogComponent} from './ships/ships-grid/ships-dialog/ships-dialog.component';
+import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import {baseUrlSetter} from '../interceptors/api-interceptor.interceptor';
+import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 
 @NgModule({
   declarations: [
     AppComponent,
     ShipsGridComponent,
-    ShipsGridItemComponent,
     ShipsDetailsComponent,
     SignUpComponent,
     SignInComponent,
-    NoopComponent
+    ShipsDialogComponent,
+    ShipsGridComponent
   ],
   imports: [
+    RouterModule,
     FormModule,
     BrowserModule,
     AppRoutingModule,
@@ -54,6 +59,7 @@ import {NoopComponent} from './noop.component';
     ReactiveFormsModule,
     MatInput,
     MatCardActions,
+    RouterLink,
     MatCardTitle,
     MatError,
     ApiModule.forRoot({rootUrl: environment.apiUrl}),
@@ -63,11 +69,23 @@ import {NoopComponent} from './noop.component';
     MatChip,
     MatFormFieldModule,
     MatInputModule,
+    MatGridList,
+    MatGridTile,
+    MatDialogContent,
+    FormsModule,
+    MatDialogActions,
+    MatDialogClose,
+    MatDialogTitle,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
+    MatMenuContent,
   ],
 
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptorsFromDi())
+
+    provideHttpClient(withInterceptors([baseUrlSetter]))
   ],
 
   bootstrap: [AppComponent]

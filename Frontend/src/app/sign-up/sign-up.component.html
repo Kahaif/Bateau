@@ -8,78 +8,77 @@
           Adresse invalide.
         </mat-error>
       </mat-form-field>
-
     </ng-template>
+
 
     <!-- password field with the complexity rendering logics -->
-
-  <ng-template #field>
-      <mat-form-field>
-        <input
-          matInput
-          i18n-placeholder
-          placeholder="Mot de passe"
-          type="password"
-          [formControl]="form.controls.password"
-          required
-        />
-        <mat-error *ngIf="form.controls.password.hasError('required')" i18n>
-          Ce champ est nécessaire.
-        </mat-error>
-        <mat-error  *ngIf="form.controls.password.hasError('codes')">
-          @switch (form.controls.password.errors!['codes'][0]) {
-            @case (PasswordErrorCodes.PasswordRequiresDigit) {
-              Un chiffre est nécessaire.
-            }
-            @case (PasswordErrorCodes.PasswordTooShort) {
-              Le mot de passe doit contenir au moins 8 caractères.
-            }
-            @case (PasswordErrorCodes.PasswordRequiresNonAlphanumeric) {
-              Un caractère spécial est nécessaire.
-            }
-            @case (PasswordErrorCodes.PasswordRequiresUpper) {
-              Une majuscule est nécessaire,
-            }
-            @case (PasswordErrorCodes.PasswordRequiresUniqueChars) {
-              <!-- purposefully ignore that case as it's always 1 -->
-            }
-
-            @case (PasswordErrorCodes.PasswordRequiresLower) {
-              Une minuscule est nécessaire.
-            }
-          }
-        </mat-error >
-      </mat-form-field>
-    </ng-template >
-
     <ng-template #field>
-      <mat-form-field>
-        <input
-          matInput
-          i18n-placeholder
-          placeholder="Confirmation du mot de passe"
-          type="password"
-          required
-          [formControl]="form.controls.passwordConfirmation"
-        />
-        <mat-error *ngIf="form.controls.passwordConfirmation.hasError('required')" i18n>
-          Ce champ est nécessaire.
-        </mat-error>
+        <mat-form-field>
+          <input
+            matInput
+            i18n-placeholder
+            placeholder="Mot de passe"
+            type="password"
+            [formControl]="form.controls.password"
+            required
+          />
+          <mat-error *ngIf="form.controls.password.hasError('required')" i18n>
+            Ce champ est nécessaire.
+          </mat-error>
+          <mat-error  *ngIf="form.controls.password.hasError('codes')">
+            @switch (form.controls.password.errors!['codes'][0]) {
+              @case (PasswordErrorCodes.PasswordRequiresDigit) {
+                Un chiffre est nécessaire.
+              }
+              @case (PasswordErrorCodes.PasswordTooShort) {
+                Le mot de passe doit contenir au moins 8 caractères.
+              }
+              @case (PasswordErrorCodes.PasswordRequiresNonAlphanumeric) {
+                Un caractère spécial est nécessaire.
+              }
+              @case (PasswordErrorCodes.PasswordRequiresUpper) {
+                Une majuscule est nécessaire,
+              }
+              @case (PasswordErrorCodes.PasswordRequiresUniqueChars) {
+                <!-- purposefully ignore that case as it's always 1 -->
+              }
 
-        <mat-error *ngIf="form.controls.passwordConfirmation.hasError('inequal')" i18n>
-          Les mots de passes ne correspondent pas.
-        </mat-error>
+              @case (PasswordErrorCodes.PasswordRequiresLower) {
+                Une minuscule est nécessaire.
+              }
+            }
+          </mat-error >
+        </mat-form-field>
+      </ng-template >
 
-      </mat-form-field>
-    </ng-template>
+      <ng-template #field>
+        <mat-form-field>
+          <input
+            matInput
+            i18n-placeholder
+            placeholder="Confirmation du mot de passe"
+            type="password"
+            required
+            [formControl]="form.controls.passwordConfirmation"
+          />
+          <mat-error *ngIf="form.controls.passwordConfirmation.hasError('required')" i18n>
+            Ce champ est nécessaire.
+          </mat-error>
+
+          <mat-error *ngIf="form.controls.passwordConfirmation.hasError('inequal')" i18n>
+            Les mots de passes ne correspondent pas.
+          </mat-error>
+
+        </mat-form-field>
+      </ng-template>
 
 
-  <a idf-action [routerLink]="['/sign-in']" i18n>
-    Se connecter ?
-  </a>
+      <a idf-action [routerLink]="['/sign-in']" i18n>
+        Se connecter ?
+      </a>
 
-  <span form-btn-content i18n>
-    S'inscrire
-  </span>
+      <span form-btn-content i18n>
+        S'inscrire
+      </span>
 
   </app-form>

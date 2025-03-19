@@ -11,12 +11,12 @@ import { RequestBuilder } from '../../request-builder';
 import { TwoFactorRequest } from '../../models/two-factor-request';
 import { TwoFactorResponse } from '../../models/two-factor-response';
 
-export interface ApiManage2FaPost$Params {
+export interface Manage2FaPost$Params {
       body?: TwoFactorRequest
 }
 
-export function apiManage2FaPost(http: HttpClient, rootUrl: string, params?: ApiManage2FaPost$Params, context?: HttpContext): Observable<StrictHttpResponse<TwoFactorResponse>> {
-  const rb = new RequestBuilder(rootUrl, apiManage2FaPost.PATH, 'post');
+export function manage2FaPost(http: HttpClient, rootUrl: string, params?: Manage2FaPost$Params, context?: HttpContext): Observable<StrictHttpResponse<TwoFactorResponse>> {
+  const rb = new RequestBuilder(rootUrl, manage2FaPost.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -31,4 +31,4 @@ export function apiManage2FaPost(http: HttpClient, rootUrl: string, params?: Api
   );
 }
 
-apiManage2FaPost.PATH = '/api/manage/2fa';
+manage2FaPost.PATH = '/manage/2fa';

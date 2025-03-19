@@ -4,8 +4,6 @@ import {SignInComponent} from './sign-in/sign-in.component';
 import {SignUpComponent} from './sign-up/sign-up.component';
 import {ShipsGridComponent} from './ships/ships-grid/ships-grid.component';
 import {AuthGuard, NonAuthGuard} from '../auth-gard';
-import {AppComponent} from './app.component';
-import {NoopComponent} from './noop.component';
 
 
 const routes: Routes = [
@@ -14,7 +12,6 @@ const routes: Routes = [
     title: $localize`Connexion`,
     path: 'sign-in',
     component: SignInComponent,
-
     canActivate: [NonAuthGuard] // hide if already logged in
   },
   {
