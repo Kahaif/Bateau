@@ -56,7 +56,8 @@ public class ShipsController(IShipService service) : ControllerBase
             return NotFound();
         }
 
-        // check if there's another ship with the new name that exists
+        // it is expected from the front to always send the complete ship.
+        // If the names are not the same, it's a change request so we ensure that there's no conflict too
         if (ship.Name != req.Name && await service.ShipNameExistsAsync(CurrentUserId, req.Name))
         {
             return Conflict();
