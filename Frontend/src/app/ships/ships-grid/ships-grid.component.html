@@ -11,32 +11,45 @@
       Créer un bateau
     </button>
 
-    @if (allShips().length > 0) {
+  <div *ngIf="allShips().length > 0">
+    <br />
+    <h3 i18n style="font-style: italic">Clique-droit pour consulter ou éditer le bateau</h3>
+  </div>
 
-      <mat-grid-list cols="3" rowHeight="3:2">
-        <mat-grid-tile *ngFor="let ship of allShips()" [matMenuTriggerFor]="menu" [matMenuTriggerData]="{ship}" class="content"  >
-              {{ship.name}}
-        </mat-grid-tile>
-      </mat-grid-list>
-    }
+    <mat-grid-list *ngIf="allShips().length > 0" cols="3" rowHeight="3:2" >
+      <mat-grid-tile
+        *ngFor="let ship of allShips()"
+        [cdkContextMenuTriggerFor]="contextMenu"
+        [cdkContextMenuTriggerData]="{ship}"
+        class="content"  >
+            {{ship.name}}
+      </mat-grid-tile>
+    </mat-grid-list>
 
 </div>
 
-<!-- Contextual menu -->
-<mat-menu #menu="matMenu" overlapTrigger="true" yPosition="below" xPosition="after" >
-  <ng-template matMenuContent let-ship="ship">
-    <button (click)="consult(ship)" mat-menu-item>
-      <mat-icon>photo icon</mat-icon>
-      <span i18n>Consulter</span>
-    </button>
-    <button (click)="edit(ship)" mat-menu-item>
-      <mat-icon>edit</mat-icon>
-      <span i18n>Éditer</span>
-    </button>
-    <button (click)="delete(ship)" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      <span i18n>Supprimer</span>
-    </button>
-  </ng-template>
-</mat-menu>
+
+
+
+<ng-template #contextMenu let-ship="ship">
+  <mat-action-list >
+
+    <!-- Dummy to remove the autofocus -->
+      <mat-list-item  cdkMenuItem (click)="consult(ship)">
+        <mat-icon matListItemIcon>photo icon</mat-icon>
+        Consulter
+      </mat-list-item>
+
+    <mat-list-item (click)="edit(ship)" cdkMenuItem i18n>
+      <mat-icon matListItemIcon>edit</mat-icon>
+      Éditer
+    </mat-list-item>
+
+
+    <mat-list-item (click)="delete(ship)" cdkMenuItem i18n>
+      <mat-icon matListItemIcon>delete</mat-icon>
+      Supprimer
+    </mat-list-item>
+  </mat-action-list>
+</ng-template>
 

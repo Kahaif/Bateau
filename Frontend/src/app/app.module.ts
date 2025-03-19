@@ -30,6 +30,8 @@ import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from
 import {baseUrlSetter, unauthorizedCatcher} from '../interceptors/api-interceptor.interceptor';
 import {MatMenu, MatMenuContent, MatMenuItem, MatMenuTrigger} from '@angular/material/menu';
 import {NotFoundComponent} from './not-found/not-found.component';
+import {CdkMenuModule} from '@angular/cdk/menu';
+import {CdkTrapFocus} from '@angular/cdk/a11y';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
     NotFoundComponent
   ],
   imports: [
+    CdkMenuModule,
     RouterModule,
     FormModule,
     BrowserModule,
@@ -80,6 +83,7 @@ import {NotFoundComponent} from './not-found/not-found.component';
     MatMenuItem,
     MatMenuTrigger,
     MatMenuContent,
+    CdkTrapFocus,
   ],
 
   providers: [
